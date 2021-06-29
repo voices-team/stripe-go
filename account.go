@@ -134,6 +134,14 @@ const (
 	AccountCapabilitiesBancontactPaymentsPending  AccountCapabilitiesBancontactPayments = "pending"
 )
 
+type AccountCapabilitiesBoletoPayments string
+
+const (
+	AccountCapabilitiesBoletoPaymentsActive   AccountCapabilitiesBoletoPayments = "active"
+	AccountCapabilitiesBoletoPaymentsInactive AccountCapabilitiesBoletoPayments = "inactive"
+	AccountCapabilitiesBoletoPaymentsPending  AccountCapabilitiesBoletoPayments = "pending"
+)
+
 type AccountCapabilitiesCardIssuing string
 
 const (
@@ -329,6 +337,9 @@ type AccountCapabilitiesBACSDebitPaymentsParams struct {
 type AccountCapabilitiesBancontactPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
+type AccountCapabilitiesBoletoPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
 
 // AccountCapabilitiesCardIssuingParams represent allowed parameters to configure the Issuing capability on an account.
 type AccountCapabilitiesCardIssuingParams struct {
@@ -415,6 +426,7 @@ type AccountCapabilitiesParams struct {
 	AuBECSDebitPayments      *AccountCapabilitiesAuBECSDebitPaymentsParams      `form:"au_becs_debit_payments"`
 	BACSDebitPayments        *AccountCapabilitiesBACSDebitPaymentsParams        `form:"bacs_debit_payments"`
 	BancontactPayments       *AccountCapabilitiesBancontactPaymentsParams       `form:"bancontact_payments"`
+	BoletoPayments           *AccountCapabilitiesBoletoPaymentsParams           `form:"boleto_payments"`
 	CardIssuing              *AccountCapabilitiesCardIssuingParams              `form:"card_issuing"`
 	CardPayments             *AccountCapabilitiesCardPaymentsParams             `form:"card_payments"`
 	CartesBancairesPayments  *AccountCapabilitiesCartesBancairesPaymentsParams  `form:"cartes_bancaires_payments"`
@@ -714,6 +726,7 @@ type AccountCapabilities struct {
 	AuBECSDebitPayments      AccountCapabilitiesAuBECSDebitPayments      `json:"au_becs_debit_payments"`
 	BACSDebitPayments        AccountCapabilitiesBACSDebitPayments        `json:"bacs_debit_payments"`
 	BancontactPayments       AccountCapabilitiesBancontactPayments       `json:"bancontact_payments"`
+	BoletoPayments           AccountCapabilitiesBoletoPayments           `json:"boleto_payments"`
 	CardIssuing              AccountCapabilitiesCardIssuing              `json:"card_issuing"`
 	CardPayments             AccountCapabilitiesCardPayments             `json:"card_payments"`
 	CartesBancairesPayments  AccountCapabilitiesCartesBancairesPayments  `json:"cartes_bancaires_payments"`
