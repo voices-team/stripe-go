@@ -61,8 +61,8 @@ type IdentityVerificationSessionVerifiedOutputsIDNumberType string
 
 const (
 	IdentityVerificationSessionVerifiedOutputsIDNumberTypeBRCPF  IdentityVerificationSessionVerifiedOutputsIDNumberType = "br_cpf"
-	IdentityVerificationSessionVerifiedOutputsIDNumberTypeSGNRIC IdentityVerificationSessionVerifiedOutputsIDNumberType = "sg_nric"
-	IdentityVerificationSessionVerifiedOutputsIDNumberTypeUSSSN  IdentityVerificationSessionVerifiedOutputsIDNumberType = "us_ssn"
+	IdentityVerificationSessionVerifiedOutputsIDNumberTypeSgNric IdentityVerificationSessionVerifiedOutputsIDNumberType = "sg_nric"
+	IdentityVerificationSessionVerifiedOutputsIDNumberTypeUsSsn  IdentityVerificationSessionVerifiedOutputsIDNumberType = "us_ssn"
 )
 
 type IdentityVerificationSessionOptionsDocumentParams struct {
@@ -110,14 +110,14 @@ type IdentityVerificationSessionOptions struct {
 type IdentityVerificationSessionRedaction struct {
 	Status IdentityVerificationSessionRedactionStatus `json:"status"`
 }
-type IdentityVerificationSessionVerifiedOutputsDOB struct {
+type IdentityVerificationSessionVerifiedOutputsDob struct {
 	Day   int64 `json:"day"`
 	Month int64 `json:"month"`
 	Year  int64 `json:"year"`
 }
 type IdentityVerificationSessionVerifiedOutputs struct {
 	Address      *Address                                               `json:"address"`
-	DOB          *IdentityVerificationSessionVerifiedOutputsDOB         `json:"dob"`
+	Dob          *IdentityVerificationSessionVerifiedOutputsDob         `json:"dob"`
 	FirstName    string                                                 `json:"first_name"`
 	IDNumber     string                                                 `json:"id_number"`
 	IDNumberType IdentityVerificationSessionVerifiedOutputsIDNumberType `json:"id_number_type"`

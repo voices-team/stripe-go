@@ -1,12 +1,22 @@
-package stripe
+//
+//
+// File generated from our OpenAPI spec
+//
+//
 
-import "encoding/json"
+package stripe
 
 // OrderReturnParams is the set of parameters that can be used when returning orders.
 type OrderReturnParams struct {
 	Params `form:"*"`
-	Items  []*OrderItemParams `form:"items"`
-	Order  *string            `form:"-"` // Included in the URL
+}
+
+// OrderReturnListParams is the set of parameters that can be used when listing order returns.
+type OrderReturnListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Order        *string           `form:"order"`
 }
 
 // OrderReturn is the resource representing an order return.
@@ -19,6 +29,7 @@ type OrderReturn struct {
 	ID       string       `json:"id"`
 	Items    []*OrderItem `json:"items"`
 	Livemode bool         `json:"livemode"`
+	Object   string       `json:"object"`
 	Order    *Order       `json:"order"`
 	Refund   *Refund      `json:"refund"`
 }
@@ -28,31 +39,4 @@ type OrderReturnList struct {
 	APIResource
 	ListMeta
 	Data []*OrderReturn `json:"data"`
-}
-
-// OrderReturnListParams is the set of parameters that can be used when listing order returns.
-type OrderReturnListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Order        *string           `form:"order"`
-}
-
-// UnmarshalJSON handles deserialization of an OrderReturn.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (r *OrderReturn) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		r.ID = id
-		return nil
-	}
-
-	type orderReturn OrderReturn
-	var v orderReturn
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*r = OrderReturn(v)
-	return nil
 }

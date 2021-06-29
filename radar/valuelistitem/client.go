@@ -5,6 +5,7 @@
 //
 
 // Package valuelistitem provides the /radar/value_list_items APIs
+// For more details, see: https://stripe.com/docs/api/radar/list_items?lang=go
 package valuelistitem
 
 import (

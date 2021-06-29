@@ -1,43 +1,18 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
-
-// RefundFailureReason is, if set, the reason the refund failed.
-type RefundFailureReason string
-
-// List of values that RefundFailureReason can take.
-const (
-	RefundFailureReasonExpiredOrCanceledCard RefundFailureReason = "expired_or_canceled_card"
-	RefundFailureReasonLostOrStolenCard      RefundFailureReason = "lost_or_stolen_card"
-	RefundFailureReasonUnknown               RefundFailureReason = "unknown"
-)
-
-// RefundReason is, if set, the reason the refund is being made
-type RefundReason string
-
-// List of values that RefundReason can take.
-const (
-	RefundReasonDuplicate               RefundReason = "duplicate"
-	RefundReasonExpiredUncapturedCharge RefundReason = "expired_uncaptured_charge"
-	RefundReasonFraudulent              RefundReason = "fraudulent"
-	RefundReasonRequestedByCustomer     RefundReason = "requested_by_customer"
-)
-
-// RefundStatus is the status of the refund.
-type RefundStatus string
-
-// List of values that RefundStatus can take.
-const (
-	RefundStatusCanceled  RefundStatus = "canceled"
-	RefundStatusFailed    RefundStatus = "failed"
-	RefundStatusPending   RefundStatus = "pending"
-	RefundStatusSucceeded RefundStatus = "succeeded"
-)
 
 // RefundParams is the set of parameters that can be used when refunding a charge.
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
 	Params               `form:"*"`
+	Charge               *string `form:"-"` // Included in URL
 	Amount               *int64  `form:"amount"`
 	Charge               *string `form:"charge"`
 	PaymentIntent        *string `form:"payment_intent"`
@@ -50,6 +25,7 @@ type RefundParams struct {
 // For more details see https://stripe.com/docs/api#list_refunds.
 type RefundListParams struct {
 	ListParams    `form:"*"`
+	Charge        *string           `form:"-"` // Included in URL
 	Charge        *string           `form:"charge"`
 	Created       *int64            `form:"created"`
 	CreatedRange  *RangeQueryParams `form:"created"`
@@ -65,16 +41,17 @@ type Refund struct {
 	Charge                    *Charge             `json:"charge"`
 	Created                   int64               `json:"created"`
 	Currency                  Currency            `json:"currency"`
-	FailureReason             RefundFailureReason `json:"failure_reason"`
+	Description               string              `json:"description"`
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
+	FailureReason             string              `json:"failure_reason"`
 	ID                        string              `json:"id"`
 	Metadata                  map[string]string   `json:"metadata"`
 	Object                    string              `json:"object"`
 	PaymentIntent             *PaymentIntent      `json:"payment_intent"`
-	Reason                    RefundReason        `json:"reason"`
+	Reason                    string              `json:"reason"`
 	ReceiptNumber             string              `json:"receipt_number"`
 	SourceTransferReversal    *Reversal           `json:"source_transfer_reversal"`
-	Status                    RefundStatus        `json:"status"`
+	Status                    string              `json:"status"`
 	TransferReversal          *Reversal           `json:"transfer_reversal"`
 }
 

@@ -1,45 +1,79 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
-
-// BalanceSourceType is the list of allowed values for the balance amount's source_type field keys.
-type BalanceSourceType string
-
-// List of values that BalanceSourceType can take.
-const (
-	BalanceSourceTypeBankAccount BalanceSourceType = "bank_account"
-	BalanceSourceTypeCard        BalanceSourceType = "card"
-	BalanceSourceTypeFPX         BalanceSourceType = "fpx"
-)
-
-// BalanceTransactionStatus is the list of allowed values for the balance transaction's status.
-type BalanceTransactionStatus string
 
 // BalanceParams is the set of parameters that can be used when retrieving a balance.
 // For more details see https://stripe.com/docs/api#balance.
 type BalanceParams struct {
 	Params `form:"*"`
 }
-
-// Amount is a structure wrapping an amount value and its currency.
-type Amount struct {
-	Currency    Currency                    `json:"currency"`
-	SourceTypes map[BalanceSourceType]int64 `json:"source_types"`
-	Value       int64                       `json:"amount"`
+type BalanceAvailableSourceTypes struct {
+	BankAccount int64 `json:"bank_account"`
+	Card        int64 `json:"card"`
+	FPX         int64 `json:"fpx"`
 }
-
-// BalanceDetails is the resource representing details about a specific product's balance.
-type BalanceDetails struct {
-	Available []*Amount `json:"available"`
+type BalanceAvailable struct {
+	Amount      int64                        `json:"amount"`
+	Currency    Currency                     `json:"currency"`
+	SourceTypes *BalanceAvailableSourceTypes `json:"source_types"`
+}
+type BalanceConnectReservedSourceTypes struct {
+	BankAccount int64 `json:"bank_account"`
+	Card        int64 `json:"card"`
+	FPX         int64 `json:"fpx"`
+}
+type BalanceConnectReserved struct {
+	Amount      int64                              `json:"amount"`
+	Currency    Currency                           `json:"currency"`
+	SourceTypes *BalanceConnectReservedSourceTypes `json:"source_types"`
+}
+type BalanceInstantAvailableSourceTypes struct {
+	BankAccount int64 `json:"bank_account"`
+	Card        int64 `json:"card"`
+	FPX         int64 `json:"fpx"`
+}
+type BalanceInstantAvailable struct {
+	Amount      int64                               `json:"amount"`
+	Currency    Currency                            `json:"currency"`
+	SourceTypes *BalanceInstantAvailableSourceTypes `json:"source_types"`
+}
+type BalanceIssuingAvailableSourceTypes struct {
+	BankAccount int64 `json:"bank_account"`
+	Card        int64 `json:"card"`
+	FPX         int64 `json:"fpx"`
+}
+type BalanceIssuingAvailable struct {
+	Amount      int64                               `json:"amount"`
+	Currency    Currency                            `json:"currency"`
+	SourceTypes *BalanceIssuingAvailableSourceTypes `json:"source_types"`
+}
+type BalanceIssuing struct {
+	Available []*BalanceIssuingAvailable `json:"available"`
+}
+type BalancePendingSourceTypes struct {
+	BankAccount int64 `json:"bank_account"`
+	Card        int64 `json:"card"`
+	FPX         int64 `json:"fpx"`
+}
+type BalancePending struct {
+	Amount      int64                      `json:"amount"`
+	Currency    Currency                   `json:"currency"`
+	SourceTypes *BalancePendingSourceTypes `json:"source_types"`
 }
 
 // Balance is the resource representing your Stripe balance.
 // For more details see https://stripe.com/docs/api/#balance.
 type Balance struct {
 	APIResource
-	Available        []*Amount       `json:"available"`
-	ConnectReserved  []*Amount       `json:"connect_reserved"`
-	InstantAvailable []*Amount       `json:"instant_available"`
-	Issuing          *BalanceDetails `json:"issuing"`
-	Livemode         bool            `json:"livemode"`
-	Object           string          `json:"object"`
-	Pending          []*Amount       `json:"pending"`
+	Available        []*BalanceAvailable        `json:"available"`
+	ConnectReserved  []*BalanceConnectReserved  `json:"connect_reserved"`
+	InstantAvailable []*BalanceInstantAvailable `json:"instant_available"`
+	Issuing          *BalanceIssuing            `json:"issuing"`
+	Livemode         bool                       `json:"livemode"`
+	Object           string                     `json:"object"`
+	Pending          []*BalancePending          `json:"pending"`
 }

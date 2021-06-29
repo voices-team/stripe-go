@@ -1,14 +1,143 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
+
+type PaymentMethodEPSBank string
+
+const (
+	PaymentMethodEPSBankArzteUndApothekerBank                PaymentMethodEPSBank = "arzte_und_apotheker_bank"
+	PaymentMethodEPSBankAustrianAnadiBankAg                  PaymentMethodEPSBank = "austrian_anadi_bank_ag"
+	PaymentMethodEPSBankBankAustria                          PaymentMethodEPSBank = "bank_austria"
+	PaymentMethodEPSBankBankhausCarlSpangler                 PaymentMethodEPSBank = "bankhaus_carl_spangler"
+	PaymentMethodEPSBankBankhausSchelhammerUndSchatteraAg    PaymentMethodEPSBank = "bankhaus_schelhammer_und_schattera_ag"
+	PaymentMethodEPSBankBawagPskAg                           PaymentMethodEPSBank = "bawag_psk_ag"
+	PaymentMethodEPSBankBksBankAg                            PaymentMethodEPSBank = "bks_bank_ag"
+	PaymentMethodEPSBankBrullKallmusBankAg                   PaymentMethodEPSBank = "brull_kallmus_bank_ag"
+	PaymentMethodEPSBankBtvVierLanderBank                    PaymentMethodEPSBank = "btv_vier_lander_bank"
+	PaymentMethodEPSBankCapitalBankGraweGruppeAg             PaymentMethodEPSBank = "capital_bank_grawe_gruppe_ag"
+	PaymentMethodEPSBankDolomitenbank                        PaymentMethodEPSBank = "dolomitenbank"
+	PaymentMethodEPSBankEasybankAg                           PaymentMethodEPSBank = "easybank_ag"
+	PaymentMethodEPSBankErsteBankUndSparkassen               PaymentMethodEPSBank = "erste_bank_und_sparkassen"
+	PaymentMethodEPSBankHypoAlpeadriabankInternationalAg     PaymentMethodEPSBank = "hypo_alpeadriabank_international_ag"
+	PaymentMethodEPSBankHypoBankBurgenlandAktiengesellschaft PaymentMethodEPSBank = "hypo_bank_burgenland_aktiengesellschaft"
+	PaymentMethodEPSBankHypoNoeLbFurNiederosterreichUWien    PaymentMethodEPSBank = "hypo_noe_lb_fur_niederosterreich_u_wien"
+	PaymentMethodEPSBankHypoOberosterreichSalzburgSteiermark PaymentMethodEPSBank = "hypo_oberosterreich_salzburg_steiermark"
+	PaymentMethodEPSBankHypoTirolBankAg                      PaymentMethodEPSBank = "hypo_tirol_bank_ag"
+	PaymentMethodEPSBankHypoVorarlbergBankAg                 PaymentMethodEPSBank = "hypo_vorarlberg_bank_ag"
+	PaymentMethodEPSBankMarchfelderBank                      PaymentMethodEPSBank = "marchfelder_bank"
+	PaymentMethodEPSBankOberbankAg                           PaymentMethodEPSBank = "oberbank_ag"
+	PaymentMethodEPSBankRaiffeisenBankengruppeOsterreich     PaymentMethodEPSBank = "raiffeisen_bankengruppe_osterreich"
+	PaymentMethodEPSBankSchoellerbankAg                      PaymentMethodEPSBank = "schoellerbank_ag"
+	PaymentMethodEPSBankSpardaBankWien                       PaymentMethodEPSBank = "sparda_bank_wien"
+	PaymentMethodEPSBankVolksbankGruppe                      PaymentMethodEPSBank = "volksbank_gruppe"
+	PaymentMethodEPSBankVolkskreditbankAg                    PaymentMethodEPSBank = "volkskreditbank_ag"
+	PaymentMethodEPSBankVrBankBraunau                        PaymentMethodEPSBank = "vr_bank_braunau"
+)
 
 // PaymentMethodFPXAccountHolderType is a list of string values that FPX AccountHolderType accepts.
 type PaymentMethodFPXAccountHolderType string
 
 // List of values that PaymentMethodFPXAccountHolderType can take
 const (
-	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
 	PaymentMethodFPXAccountHolderTypeCompany    PaymentMethodFPXAccountHolderType = "company"
+	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
+)
+
+type PaymentMethodFPXBank string
+
+const (
+	PaymentMethodFPXBankAffinBank         PaymentMethodFPXBank = "affin_bank"
+	PaymentMethodFPXBankAllianceBank      PaymentMethodFPXBank = "alliance_bank"
+	PaymentMethodFPXBankAmbank            PaymentMethodFPXBank = "ambank"
+	PaymentMethodFPXBankBankIslam         PaymentMethodFPXBank = "bank_islam"
+	PaymentMethodFPXBankBankMuamalat      PaymentMethodFPXBank = "bank_muamalat"
+	PaymentMethodFPXBankBankRakyat        PaymentMethodFPXBank = "bank_rakyat"
+	PaymentMethodFPXBankBsn               PaymentMethodFPXBank = "bsn"
+	PaymentMethodFPXBankCimb              PaymentMethodFPXBank = "cimb"
+	PaymentMethodFPXBankDeutscheBank      PaymentMethodFPXBank = "deutsche_bank"
+	PaymentMethodFPXBankHongLeongBank     PaymentMethodFPXBank = "hong_leong_bank"
+	PaymentMethodFPXBankHsbc              PaymentMethodFPXBank = "hsbc"
+	PaymentMethodFPXBankKfh               PaymentMethodFPXBank = "kfh"
+	PaymentMethodFPXBankMaybank2e         PaymentMethodFPXBank = "maybank2e"
+	PaymentMethodFPXBankMaybank2u         PaymentMethodFPXBank = "maybank2u"
+	PaymentMethodFPXBankOcbc              PaymentMethodFPXBank = "ocbc"
+	PaymentMethodFPXBankPbEnterprise      PaymentMethodFPXBank = "pb_enterprise"
+	PaymentMethodFPXBankPublicBank        PaymentMethodFPXBank = "public_bank"
+	PaymentMethodFPXBankRhb               PaymentMethodFPXBank = "rhb"
+	PaymentMethodFPXBankStandardChartered PaymentMethodFPXBank = "standard_chartered"
+	PaymentMethodFPXBankUob               PaymentMethodFPXBank = "uob"
+)
+
+type PaymentMethodIdealBank string
+
+const (
+	PaymentMethodIdealBankAbnAmro       PaymentMethodIdealBank = "abn_amro"
+	PaymentMethodIdealBankAsnBank       PaymentMethodIdealBank = "asn_bank"
+	PaymentMethodIdealBankBunq          PaymentMethodIdealBank = "bunq"
+	PaymentMethodIdealBankHandelsbanken PaymentMethodIdealBank = "handelsbanken"
+	PaymentMethodIdealBankIng           PaymentMethodIdealBank = "ing"
+	PaymentMethodIdealBankKnab          PaymentMethodIdealBank = "knab"
+	PaymentMethodIdealBankMoneyou       PaymentMethodIdealBank = "moneyou"
+	PaymentMethodIdealBankRabobank      PaymentMethodIdealBank = "rabobank"
+	PaymentMethodIdealBankRegiobank     PaymentMethodIdealBank = "regiobank"
+	PaymentMethodIdealBankRevolut       PaymentMethodIdealBank = "revolut"
+	PaymentMethodIdealBankSnsBank       PaymentMethodIdealBank = "sns_bank"
+	PaymentMethodIdealBankTriodosBank   PaymentMethodIdealBank = "triodos_bank"
+	PaymentMethodIdealBankVanLanschot   PaymentMethodIdealBank = "van_lanschot"
+)
+
+type PaymentMethodIdealBic string
+
+const (
+	PaymentMethodIdealBicABNANL2A PaymentMethodIdealBic = "ABNANL2A"
+	PaymentMethodIdealBicASNBNL21 PaymentMethodIdealBic = "ASNBNL21"
+	PaymentMethodIdealBicBUNQNL2A PaymentMethodIdealBic = "BUNQNL2A"
+	PaymentMethodIdealBicFVLBNL22 PaymentMethodIdealBic = "FVLBNL22"
+	PaymentMethodIdealBicHANDNL2A PaymentMethodIdealBic = "HANDNL2A"
+	PaymentMethodIdealBicINGBNL2A PaymentMethodIdealBic = "INGBNL2A"
+	PaymentMethodIdealBicKNABNL2H PaymentMethodIdealBic = "KNABNL2H"
+	PaymentMethodIdealBicMOYONL21 PaymentMethodIdealBic = "MOYONL21"
+	PaymentMethodIdealBicRABONL2U PaymentMethodIdealBic = "RABONL2U"
+	PaymentMethodIdealBicRBRBNL21 PaymentMethodIdealBic = "RBRBNL21"
+	PaymentMethodIdealBicREVOLT21 PaymentMethodIdealBic = "REVOLT21"
+	PaymentMethodIdealBicSNSBNL2A PaymentMethodIdealBic = "SNSBNL2A"
+	PaymentMethodIdealBicTRIONL2U PaymentMethodIdealBic = "TRIONL2U"
+)
+
+type PaymentMethodP24Bank string
+
+const (
+	PaymentMethodP24BankAliorBank            PaymentMethodP24Bank = "alior_bank"
+	PaymentMethodP24BankBankMillennium       PaymentMethodP24Bank = "bank_millennium"
+	PaymentMethodP24BankBankNowyBfgSa        PaymentMethodP24Bank = "bank_nowy_bfg_sa"
+	PaymentMethodP24BankBankPekaoSa          PaymentMethodP24Bank = "bank_pekao_sa"
+	PaymentMethodP24BankBankiSpbdzielcze     PaymentMethodP24Bank = "banki_spbdzielcze"
+	PaymentMethodP24BankBlik                 PaymentMethodP24Bank = "blik"
+	PaymentMethodP24BankBnpParibas           PaymentMethodP24Bank = "bnp_paribas"
+	PaymentMethodP24BankBoz                  PaymentMethodP24Bank = "boz"
+	PaymentMethodP24BankCitiHandlowy         PaymentMethodP24Bank = "citi_handlowy"
+	PaymentMethodP24BankCreditAgricole       PaymentMethodP24Bank = "credit_agricole"
+	PaymentMethodP24BankEnvelobank           PaymentMethodP24Bank = "envelobank"
+	PaymentMethodP24BankEtransferPocztowy24  PaymentMethodP24Bank = "etransfer_pocztowy24"
+	PaymentMethodP24BankGetinBank            PaymentMethodP24Bank = "getin_bank"
+	PaymentMethodP24BankIdeabank             PaymentMethodP24Bank = "ideabank"
+	PaymentMethodP24BankIng                  PaymentMethodP24Bank = "ing"
+	PaymentMethodP24BankInteligo             PaymentMethodP24Bank = "inteligo"
+	PaymentMethodP24BankMbankMtransfer       PaymentMethodP24Bank = "mbank_mtransfer"
+	PaymentMethodP24BankNestPrzelew          PaymentMethodP24Bank = "nest_przelew"
+	PaymentMethodP24BankNoblePay             PaymentMethodP24Bank = "noble_pay"
+	PaymentMethodP24BankPbacZIpko            PaymentMethodP24Bank = "pbac_z_ipko"
+	PaymentMethodP24BankPlusBank             PaymentMethodP24Bank = "plus_bank"
+	PaymentMethodP24BankSantanderPrzelew24   PaymentMethodP24Bank = "santander_przelew24"
+	PaymentMethodP24BankTmobileUsbugiBankowe PaymentMethodP24Bank = "tmobile_usbugi_bankowe"
+	PaymentMethodP24BankToyotaBank           PaymentMethodP24Bank = "toyota_bank"
+	PaymentMethodP24BankVolkswagenBank       PaymentMethodP24Bank = "volkswagen_bank"
 )
 
 // PaymentMethodType is the list of allowed values for the payment method type.
@@ -19,10 +148,9 @@ const (
 	PaymentMethodTypeACSSDebit        PaymentMethodType = "acss_debit"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
-	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
+	PaymentMethodTypeAuBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
-	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
@@ -35,39 +163,6 @@ const (
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
-)
-
-// PaymentMethodCardBrand is the list of allowed values for the brand property on a
-// Card PaymentMethod.
-type PaymentMethodCardBrand string
-
-// List of values that PaymentMethodCardBrand can take.
-const (
-	PaymentMethodCardBrandAmex       PaymentMethodCardBrand = "amex"
-	PaymentMethodCardBrandDiners     PaymentMethodCardBrand = "diners"
-	PaymentMethodCardBrandDiscover   PaymentMethodCardBrand = "discover"
-	PaymentMethodCardBrandJCB        PaymentMethodCardBrand = "jcb"
-	PaymentMethodCardBrandMastercard PaymentMethodCardBrand = "mastercard"
-	PaymentMethodCardBrandUnionpay   PaymentMethodCardBrand = "unionpay"
-	PaymentMethodCardBrandUnknown    PaymentMethodCardBrand = "unknown"
-	PaymentMethodCardBrandVisa       PaymentMethodCardBrand = "visa"
-)
-
-// PaymentMethodCardNetwork is the list of allowed values to represent the network
-// used for a card-like transaction.
-type PaymentMethodCardNetwork string
-
-// List of values that PaymentMethodCardNetwork can take.
-const (
-	PaymentMethodCardNetworkAmex       PaymentMethodCardNetwork = "amex"
-	PaymentMethodCardNetworkDiners     PaymentMethodCardNetwork = "diners"
-	PaymentMethodCardNetworkDiscover   PaymentMethodCardNetwork = "discover"
-	PaymentMethodCardNetworkInterac    PaymentMethodCardNetwork = "interac"
-	PaymentMethodCardNetworkJCB        PaymentMethodCardNetwork = "jcb"
-	PaymentMethodCardNetworkMastercard PaymentMethodCardNetwork = "mastercard"
-	PaymentMethodCardNetworkUnionpay   PaymentMethodCardNetwork = "unionpay"
-	PaymentMethodCardNetworkUnknown    PaymentMethodCardNetwork = "unknown"
-	PaymentMethodCardNetworkVisa       PaymentMethodCardNetwork = "visa"
 )
 
 // PaymentMethodCardWalletType is the list of allowed values for the type a wallet can take on
@@ -106,14 +201,10 @@ type PaymentMethodAfterpayClearpayParams struct{}
 
 // PaymentMethodAlipayParams is the set of parameters allowed for the `alipay` hash when creating a
 // PaymentMethod of type Alipay.
-type PaymentMethodAlipayParams struct {
-}
-
-// PaymentMethodAUBECSDebitParams is the set of parameters allowed for the `AUBECSDebit` hash when creating a
-// PaymentMethod of type AUBECSDebit.
-type PaymentMethodAUBECSDebitParams struct {
+type PaymentMethodAlipayParams struct{}
+type PaymentMethodAuBECSDebitParams struct {
 	AccountNumber *string `form:"account_number"`
-	BSBNumber     *string `form:"bsb_number"`
+	BsbNumber     *string `form:"bsb_number"`
 }
 
 // PaymentMethodBACSDebitParams is the set of parameters allowed for BACS Debit payment method.
@@ -124,21 +215,14 @@ type PaymentMethodBACSDebitParams struct {
 
 // PaymentMethodBancontactParams is the set of parameters allowed for the `bancontact` hash when creating a
 // PaymentMethod of type Bancontact.
-type PaymentMethodBancontactParams struct {
-}
-
-// PaymentMethodBoletoParams is the set of parameters allowed for the `boleto` hash when creating a
-// PaymentMethod of type Boleto
-type PaymentMethodBoletoParams struct {
-	TaxID *string `form:"tax_id"`
-}
+type PaymentMethodBancontactParams struct{}
 
 // PaymentMethodCardParams is the set of parameters allowed for the `card` hash when creating a
 // PaymentMethod of type card.
 type PaymentMethodCardParams struct {
 	CVC      *string `form:"cvc"`
-	ExpMonth *string `form:"exp_month"`
-	ExpYear  *string `form:"exp_year"`
+	ExpMonth *int64  `form:"exp_month"`
+	ExpYear  *int64  `form:"exp_year"`
 	Number   *string `form:"number"`
 	Token    *string `form:"token"`
 }
@@ -158,13 +242,11 @@ type PaymentMethodFPXParams struct {
 
 // PaymentMethodGiropayParams is the set of parameters allowed for the `giropay` hash when creating a
 // PaymentMethod of type Giropay.
-type PaymentMethodGiropayParams struct {
-}
+type PaymentMethodGiropayParams struct{}
 
 // PaymentMethodGrabpayParams is the set of parameters allowed for the `grabpay` hash when creating a
 // PaymentMethod of type Grabpay.
-type PaymentMethodGrabpayParams struct {
-}
+type PaymentMethodGrabpayParams struct{}
 
 // PaymentMethodIdealParams is the set of parameters allowed for the `ideal` hash when creating a
 // PaymentMethod of type ideal.
@@ -174,19 +256,16 @@ type PaymentMethodIdealParams struct {
 
 // PaymentMethodInteracPresentParams is the set of parameters allowed for the `interac_present` hash when creating a
 // PaymentMethod of type interac_present.
-type PaymentMethodInteracPresentParams struct {
-}
+type PaymentMethodInteracPresentParams struct{}
 
 // PaymentMethodOXXOParams is the set of parameters allowed for the `oxxo` hash when creating a
 // PaymentMethod of type OXXO.
-type PaymentMethodOXXOParams struct {
-}
+type PaymentMethodOXXOParams struct{}
 
 // PaymentMethodP24Params is the set of parameters allowed for the `p24` hash when creating a
 // PaymentMethod of type P24.
 type PaymentMethodP24Params struct {
-	Bank                *string `form:"bank"`
-	TOSShownAndAccepted *bool   `form:"tos_shown_and_accepted"`
+	Bank *string `form:"bank"`
 }
 
 // PaymentMethodSepaDebitParams is the set of parameters allowed for the `sepa_debit` hash when
@@ -208,27 +287,24 @@ type PaymentMethodParams struct {
 	ACSSDebit        *PaymentMethodACSSDebitParams        `form:"acss_debit"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipayParams           `form:"alipay"`
-	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
+	AuBECSDebit      *PaymentMethodAuBECSDebitParams      `form:"au_becs_debit"`
 	BACSDebit        *PaymentMethodBACSDebitParams        `form:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontactParams       `form:"bancontact"`
-	Boleto           *PaymentMethodBoletoParams           `form:"boleto"`
 	BillingDetails   *BillingDetailsParams                `form:"billing_details"`
-	Card             *PaymentMethodCardParams             `form:"card"`
-	EPS              *PaymentMethodEPSParams              `form:"eps"`
-	FPX              *PaymentMethodFPXParams              `form:"fpx"`
-	Giropay          *PaymentMethodGiropayParams          `form:"giropay"`
-	Grabpay          *PaymentMethodGrabpayParams          `form:"grabpay"`
-	Ideal            *PaymentMethodIdealParams            `form:"ideal"`
-	InteracPresent   *PaymentMethodInteracPresentParams   `form:"interac_present"`
-	OXXO             *PaymentMethodOXXOParams             `form:"oxxo"`
-	P24              *PaymentMethodP24Params              `form:"p24"`
-	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
-	Sofort           *PaymentMethodSofortParams           `form:"sofort"`
-	Type             *string                              `form:"type"`
-
-	// The following parameters are used when cloning a PaymentMethod to the connected account
-	Customer      *string `form:"customer"`
-	PaymentMethod *string `form:"payment_method"`
+	// Card *[todo({"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"PaymentMethodCardParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"PaymentMethodCardParams"}})] `form:"card"`
+	Customer       *string                            `form:"customer"`
+	EPS            *PaymentMethodEPSParams            `form:"eps"`
+	FPX            *PaymentMethodFPXParams            `form:"fpx"`
+	Giropay        *PaymentMethodGiropayParams        `form:"giropay"`
+	Grabpay        *PaymentMethodGrabpayParams        `form:"grabpay"`
+	Ideal          *PaymentMethodIdealParams          `form:"ideal"`
+	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
+	OXXO           *PaymentMethodOXXOParams           `form:"oxxo"`
+	P24            *PaymentMethodP24Params            `form:"p24"`
+	PaymentMethod  *string                            `form:"payment_method"`
+	SepaDebit      *PaymentMethodSepaDebitParams      `form:"sepa_debit"`
+	Sofort         *PaymentMethodSofortParams         `form:"sofort"`
+	Type           *string                            `form:"type"`
 }
 
 // PaymentMethodAttachParams is the set of parameters that can be used when attaching a
@@ -251,14 +327,6 @@ type PaymentMethodListParams struct {
 	Type       *string `form:"type"`
 }
 
-// BillingDetails represents the billing details associated with a PaymentMethod.
-type BillingDetails struct {
-	Address *Address `json:"address"`
-	Email   string   `json:"email"`
-	Name    string   `json:"name"`
-	Phone   string   `json:"phone"`
-}
-
 // PaymentMethodACSSDebit TODO
 type PaymentMethodACSSDebit struct {
 	BankName          string `json:"bank_name"`
@@ -269,16 +337,12 @@ type PaymentMethodACSSDebit struct {
 }
 
 // PaymentMethodAfterpayClearpay represents the AfterpayClearpay properties.
-type PaymentMethodAfterpayClearpay struct {
-}
+type PaymentMethodAfterpayClearpay struct{}
 
 // PaymentMethodAlipay represents the Alipay properties.
-type PaymentMethodAlipay struct {
-}
-
-// PaymentMethodAUBECSDebit represents AUBECSDebit-specific properties (Australia Only).
-type PaymentMethodAUBECSDebit struct {
-	BSBNumber   string `json:"bsb_number"`
+type PaymentMethodAlipay struct{}
+type PaymentMethodAuBECSDebit struct {
+	BsbNumber   string `json:"bsb_number"`
 	Fingerprint string `json:"fingerprint"`
 	Last4       string `json:"last4"`
 }
@@ -291,101 +355,114 @@ type PaymentMethodBACSDebit struct {
 }
 
 // PaymentMethodBancontact represents the Bancontact properties.
-type PaymentMethodBancontact struct {
-}
-
-// PaymentMethodBoleto represents the Boleto properties.
-type PaymentMethodBoleto struct {
-	TaxID string `json:"tax_id"`
+type PaymentMethodBancontact struct{}
+type PaymentMethodBillingDetails struct {
+	Address *Address `json:"address"`
+	Email   string   `json:"email"`
+	Name    string   `json:"name"`
+	Phone   string   `json:"phone"`
 }
 
 // PaymentMethodCardChecks represents the checks associated with a Card PaymentMethod.
 type PaymentMethodCardChecks struct {
-	AddressLine1Check      CardVerification `json:"address_line1_check"`
-	AddressPostalCodeCheck CardVerification `json:"address_postal_code_check"`
-	CVCCheck               CardVerification `json:"cvc_check"`
+	AddressLine1Check      string `json:"address_line1_check"`
+	AddressPostalCodeCheck string `json:"address_postal_code_check"`
+	CVCCheck               string `json:"cvc_check"`
 }
 
 // PaymentMethodCardNetworks represents the card networks that can be used to process the payment.
 type PaymentMethodCardNetworks struct {
-	Available []PaymentMethodCardNetwork `json:"available"`
-	Preferred PaymentMethodCardNetwork   `json:"preferred"`
+	Available []string `json:"available"`
+	Preferred string   `json:"preferred"`
 }
 
 // PaymentMethodCardThreeDSecureUsage represents the 3DS usage for that Card PaymentMethod.
 type PaymentMethodCardThreeDSecureUsage struct {
 	Supported bool `json:"supported"`
 }
+type PaymentMethodCardWalletAmexExpressCheckout struct{}
+type PaymentMethodCardWalletApplePay struct{}
+type PaymentMethodCardWalletGooglePay struct{}
+type PaymentMethodCardWalletMasterpass struct {
+	BillingAddress  *Address `json:"billing_address"`
+	Email           string   `json:"email"`
+	Name            string   `json:"name"`
+	ShippingAddress *Address `json:"shipping_address"`
+}
+type PaymentMethodCardWalletSamsungPay struct{}
+type PaymentMethodCardWalletVisaCheckout struct {
+	BillingAddress  *Address `json:"billing_address"`
+	Email           string   `json:"email"`
+	Name            string   `json:"name"`
+	ShippingAddress *Address `json:"shipping_address"`
+}
 
 // PaymentMethodCardWallet represents the details of the card wallet if this Card PaymentMethod
 // is part of a card wallet.
 type PaymentMethodCardWallet struct {
-	DynamicLast4 string                      `json:"dynamic_last4"`
-	Type         PaymentMethodCardWalletType `json:"type"`
+	AmexExpressCheckout *PaymentMethodCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
+	ApplePay            *PaymentMethodCardWalletApplePay            `json:"apple_pay"`
+	DynamicLast4        string                                      `json:"dynamic_last4"`
+	GooglePay           *PaymentMethodCardWalletGooglePay           `json:"google_pay"`
+	Masterpass          *PaymentMethodCardWalletMasterpass          `json:"masterpass"`
+	SamsungPay          *PaymentMethodCardWalletSamsungPay          `json:"samsung_pay"`
+	Type                PaymentMethodCardWalletType                 `json:"type"`
+	VisaCheckout        *PaymentMethodCardWalletVisaCheckout        `json:"visa_checkout"`
 }
 
 // PaymentMethodCard represents the card-specific properties.
 type PaymentMethodCard struct {
-	Brand             PaymentMethodCardBrand              `json:"brand"`
+	Brand             string                              `json:"brand"`
 	Checks            *PaymentMethodCardChecks            `json:"checks"`
 	Country           string                              `json:"country"`
-	ExpMonth          uint64                              `json:"exp_month"`
-	ExpYear           uint64                              `json:"exp_year"`
+	Description       string                              `json:"description"`
+	ExpMonth          int64                               `json:"exp_month"`
+	ExpYear           int64                               `json:"exp_year"`
 	Fingerprint       string                              `json:"fingerprint"`
-	Funding           CardFunding                         `json:"funding"`
+	Funding           string                              `json:"funding"`
+	Iin               string                              `json:"iin"`
+	Issuer            string                              `json:"issuer"`
 	Last4             string                              `json:"last4"`
 	Networks          *PaymentMethodCardNetworks          `json:"networks"`
 	ThreeDSecureUsage *PaymentMethodCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	Wallet            *PaymentMethodCardWallet            `json:"wallet"`
-
-	// Please note that the fields below are for internal use only and are not returned
-	// as part of standard API requests.
-	Description string `json:"description"`
-	IIN         string `json:"iin"`
-	Issuer      string `json:"issuer"`
 }
 
 // PaymentMethodCardPresent represents the card-present-specific properties.
-type PaymentMethodCardPresent struct {
-}
+type PaymentMethodCardPresent struct{}
 
 // PaymentMethodEPS represents the EPS properties.
 type PaymentMethodEPS struct {
-	Bank string `json:"bank"`
+	Bank PaymentMethodEPSBank `json:"bank"`
 }
 
 // PaymentMethodFPX represents FPX-specific properties (Malaysia Only).
 type PaymentMethodFPX struct {
 	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
-	Bank              string                            `json:"bank"`
-	TransactionID     string                            `json:"transaction_id"`
+	Bank              PaymentMethodFPXBank              `json:"bank"`
 }
 
 // PaymentMethodGiropay represents the Giropay properties.
-type PaymentMethodGiropay struct {
-}
+type PaymentMethodGiropay struct{}
 
 // PaymentMethodGrabpay represents the Grabpay properties.
-type PaymentMethodGrabpay struct {
-}
+type PaymentMethodGrabpay struct{}
 
 // PaymentMethodIdeal represents the iDEAL-specific properties.
 type PaymentMethodIdeal struct {
-	Bank string `json:"bank"`
-	Bic  string `json:"bic"`
+	Bank PaymentMethodIdealBank `json:"bank"`
+	Bic  PaymentMethodIdealBic  `json:"bic"`
 }
 
 // PaymentMethodInteracPresent represents the interac present properties.
-type PaymentMethodInteracPresent struct {
-}
+type PaymentMethodInteracPresent struct{}
 
 // PaymentMethodOXXO represents the OXXO-specific properties.
-type PaymentMethodOXXO struct {
-}
+type PaymentMethodOXXO struct{}
 
 // PaymentMethodP24 represents the P24 properties.
 type PaymentMethodP24 struct {
-	Bank string `json:"bank"`
+	Bank PaymentMethodP24Bank `json:"bank"`
 }
 
 // PaymentMethodSepaDebitGeneratedFrom represents information about the object
@@ -401,8 +478,8 @@ type PaymentMethodSepaDebit struct {
 	BranchCode    string                               `json:"branch_code"`
 	Country       string                               `json:"country"`
 	Fingerprint   string                               `json:"fingerprint"`
-	Last4         string                               `json:"last4"`
 	GeneratedFrom *PaymentMethodSepaDebitGeneratedFrom `json:"generated_from"`
+	Last4         string                               `json:"last4"`
 }
 
 // PaymentMethodSofort represents the Sofort-specific properties.
@@ -416,11 +493,10 @@ type PaymentMethod struct {
 	ACSSDebit        *PaymentMethodACSSDebit        `json:"acss_debit"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
-	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`
+	AuBECSDebit      *PaymentMethodAuBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`
-	BillingDetails   *BillingDetails                `json:"billing_details"`
-	Boleto           *PaymentMethodBoleto           `json:"boleto"`
+	BillingDetails   *PaymentMethodBillingDetails   `json:"billing_details"`
 	Card             *PaymentMethodCard             `json:"card"`
 	CardPresent      *PaymentMethodCardPresent      `json:"card_present"`
 	Created          int64                          `json:"created"`
@@ -452,18 +528,18 @@ type PaymentMethodList struct {
 // UnmarshalJSON handles deserialization of a PaymentMethod.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (i *PaymentMethod) UnmarshalJSON(data []byte) error {
+func (p *PaymentMethod) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		i.ID = id
+		p.ID = id
 		return nil
 	}
 
-	type pm PaymentMethod
-	var v pm
+	type paymentMethod PaymentMethod
+	var v paymentMethod
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = PaymentMethod(v)
+	*p = PaymentMethod(v)
 	return nil
 }

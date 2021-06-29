@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package creditnote provides the /credit_notes APIs
 package creditnote
 
@@ -8,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is the client used to invoke /credit_notes APIs.
+// Client is used to invoke /credit_notes APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -21,9 +27,15 @@ func New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 
 // New creates a new credit note.
 func (c Client) New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
-	cn := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodPost, "/v1/credit_notes", c.Key, params, cn)
-	return cn, err
+	creditnote := &stripe.CreditNote{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/credit_notes",
+		c.Key,
+		params,
+		creditnote,
+	)
+	return creditnote, err
 }
 
 // Get returns the details of a credit note.
@@ -34,22 +46,53 @@ func Get(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error)
 // Get returns the details of a credit note.
 func (c Client) Get(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
-	cn := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, cn)
-	return cn, err
+	creditnote := &stripe.CreditNote{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, creditnote)
+	return creditnote, err
 }
 
-// Update updates a credit note.
+// Update updates a credit note's properties.
 func Update(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a credit note.
+// Update updates a credit note's properties.
 func (c Client) Update(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
-	cn := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, cn)
-	return cn, err
+	creditnote := &stripe.CreditNote{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, creditnote)
+	return creditnote, err
+}
+
+// Preview is the method for the `GET /v1/credit_notes/preview` API.
+func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
+	return getC().Preview(params)
+}
+
+// Preview is the method for the `GET /v1/credit_notes/preview` API.
+func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
+	creditnote := &stripe.CreditNote{}
+	err := c.B.Call(
+		http.MethodGet,
+		"/v1/credit_notes/preview",
+		c.Key,
+		params,
+		creditnote,
+	)
+	return creditnote, err
+}
+
+// VoidCreditNote is the method for the `POST /v1/credit_notes/{id}/void` API.
+func VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*stripe.CreditNote, error) {
+	return getC().VoidCreditNote(id, params)
+}
+
+// VoidCreditNote is the method for the `POST /v1/credit_notes/{id}/void` API.
+func (c Client) VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*stripe.CreditNote, error) {
+	path := stripe.FormatURLPath("/v1/credit_notes/%s/void", id)
+	creditnote := &stripe.CreditNote{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, creditnote)
+	return creditnote, err
 }
 
 // List returns a list of credit notes.
@@ -72,34 +115,30 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	})}
 }
 
-// ListLines returns a list of credit note line items on a credit note.
-func ListLines(params *stripe.CreditNoteLineItemListParams) *LineItemIter {
-	return getC().ListLines(params)
+// Iter is an iterator for credit notes.
+type Iter struct {
+	*stripe.Iter
 }
 
-// ListLines returns a list of credit note line items on a credit note.
-func (c Client) ListLines(listParams *stripe.CreditNoteLineItemListParams) *LineItemIter {
-	path := stripe.FormatURLPath("/v1/credit_notes/%s/lines", stripe.StringValue(listParams.ID))
-	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.CreditNoteLineItemList{}
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
-
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
-
-		return ret, list, err
-	})}
+// CreditNote returns the credit note which the iterator is currently pointing to.
+func (i *Iter) CreditNote() *stripe.CreditNote {
+	return i.Current().(*stripe.CreditNote)
 }
 
-// ListPreviewLines returns a list of lines on a previewed credit note.
-func ListPreviewLines(params *stripe.CreditNoteLineItemListPreviewParams) *LineItemIter {
-	return getC().ListPreviewLines(params)
+// CreditNoteList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) CreditNoteList() *stripe.CreditNoteList {
+	return i.List().(*stripe.CreditNoteList)
 }
 
-// ListPreviewLines returns a list of lines on a previewed credit note.
-func (c Client) ListPreviewLines(listParams *stripe.CreditNoteLineItemListPreviewParams) *LineItemIter {
+// PreviewLines is the method for the `GET /v1/credit_notes/preview/lines` API.
+func PreviewLines(params *stripe.CreditNotePreviewLinesParams) *LineItemIter {
+	return getC().PreviewLines(params)
+}
+
+// PreviewLines is the method for the `GET /v1/credit_notes/preview/lines` API.
+func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *LineItemIter {
 	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CreditNoteLineItemList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, b, p, list)
@@ -113,49 +152,7 @@ func (c Client) ListPreviewLines(listParams *stripe.CreditNoteLineItemListPrevie
 	})}
 }
 
-// Preview previews a credit note.
-func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
-	return getC().Preview(params)
-}
-
-// Preview previews a credit note.
-func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
-	cn := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodGet, "/v1/credit_notes/preview", c.Key, params, cn)
-	return cn, err
-}
-
-// VoidCreditNote voids a credit note.
-func VoidCreditNote(id string, params *stripe.CreditNoteVoidParams) (*stripe.CreditNote, error) {
-	return getC().VoidCreditNote(id, params)
-}
-
-// VoidCreditNote voids a credit note.
-func (c Client) VoidCreditNote(id string, params *stripe.CreditNoteVoidParams) (*stripe.CreditNote, error) {
-	path := stripe.FormatURLPath("/v1/credit_notes/%s/void", id)
-	cn := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, cn)
-	return cn, err
-}
-
-// Iter is an iterator for credit notes.
-type Iter struct {
-	*stripe.Iter
-}
-
-// CreditNote returns the cn which the iterator is currently pointing to.
-func (i *Iter) CreditNote() *stripe.CreditNote {
-	return i.Current().(*stripe.CreditNote)
-}
-
-// CreditNoteList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *Iter) CreditNoteList() *stripe.CreditNoteList {
-	return i.List().(*stripe.CreditNoteList)
-}
-
-// LineItemIter is an iterator for credit note line items on a credit note.
+// LineItemIter is an iterator for credit note line items.
 type LineItemIter struct {
 	*stripe.Iter
 }

@@ -1,15 +1,20 @@
-// Package file provides the file related APIs
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package file provides the /files APIs
 package file
 
 import (
-	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v72"
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke file APIs.
+// Client is used to invoke /files APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -22,25 +27,14 @@ func New(params *stripe.FileParams) (*stripe.File, error) {
 
 // New creates a new file.
 func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
-	if params == nil {
-		return nil, fmt.Errorf("params cannot be nil, and params.Purpose and params.File must be set")
-	}
-
-	bodyBuffer, boundary, err := params.GetBody()
-	if err != nil {
-		return nil, err
-	}
-
 	file := &stripe.File{}
-	err = c.B.CallMultipart(http.MethodPost, "/v1/files", c.Key, boundary, bodyBuffer, &params.Params, file)
-
+	err := c.B.Call(http.MethodPost, "/v1/files", c.Key, params, file)
 	return file, err
 }
 
 // Get returns the details of a file.
 func Get(id string, params *stripe.FileParams) (*stripe.File, error) {
 	return getC().Get(id, params)
-
 }
 
 // Get returns the details of a file.
@@ -81,13 +75,13 @@ func (i *Iter) File() *stripe.File {
 	return i.Current().(*stripe.File)
 }
 
-// FileList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// FileList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) FileList() *stripe.FileList {
 	return i.List().(*stripe.FileList)
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

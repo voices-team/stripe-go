@@ -1,23 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
-
-// DisputeReason is the list of allowed values for a discount's reason.
-type DisputeReason string
-
-// List of values that DisputeReason can take.
-const (
-	DisputeReasonCreditNotProcessed   DisputeReason = "credit_not_processed"
-	DisputeReasonDuplicate            DisputeReason = "duplicate"
-	DisputeReasonFraudulent           DisputeReason = "fraudulent"
-	DisputeReasonGeneral              DisputeReason = "general"
-	DisputeReasonProductNotReceived   DisputeReason = "product_not_received"
-	DisputeReasonProductUnacceptable  DisputeReason = "product_unacceptable"
-	DisputeReasonSubscriptionCanceled DisputeReason = "subscription_canceled"
-	DisputeReasonUnrecognized         DisputeReason = "unrecognized"
-)
+import "encoding/json"
 
 // DisputeStatus is the list of allowed values for a discount's status.
 type DisputeStatus string
@@ -83,41 +72,36 @@ type DisputeListParams struct {
 	CreatedRange  *RangeQueryParams `form:"created"`
 	PaymentIntent *string           `form:"payment_intent"`
 }
+type DisputeCloseParams struct {
+	Params `form:"*"`
+}
+type DisputeEvidenceDetails struct {
+	DueBy           int64 `json:"due_by"`
+	HasEvidence     bool  `json:"has_evidence"`
+	PastDue         bool  `json:"past_due"`
+	SubmissionCount int64 `json:"submission_count"`
+}
 
 // Dispute is the resource representing a Stripe dispute.
 // For more details see https://stripe.com/docs/api#disputes.
 type Dispute struct {
 	APIResource
-	Amount              int64                 `json:"amount"`
-	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
-	Charge              *Charge               `json:"charge"`
-	Created             int64                 `json:"created"`
-	Currency            Currency              `json:"currency"`
-	Evidence            *DisputeEvidence      `json:"evidence"`
-	EvidenceDetails     *EvidenceDetails      `json:"evidence_details"`
-	ID                  string                `json:"id"`
-	IsChargeRefundable  bool                  `json:"is_charge_refundable"`
-	Livemode            bool                  `json:"livemode"`
-	Metadata            map[string]string     `json:"metadata"`
-	PaymentIntent       *PaymentIntent        `json:"payment_intent"`
-	Reason              DisputeReason         `json:"reason"`
-	Status              DisputeStatus         `json:"status"`
-}
-
-// DisputeList is a list of disputes as retrieved from a list endpoint.
-type DisputeList struct {
-	APIResource
-	ListMeta
-	Data []*Dispute `json:"data"`
-}
-
-// EvidenceDetails is the structure representing more details about
-// the dispute.
-type EvidenceDetails struct {
-	DueBy           int64 `json:"due_by"`
-	HasEvidence     bool  `json:"has_evidence"`
-	PastDue         bool  `json:"past_due"`
-	SubmissionCount int64 `json:"submission_count"`
+	Amount              int64                   `json:"amount"`
+	BalanceTransactions []*BalanceTransaction   `json:"balance_transactions"`
+	Charge              *Charge                 `json:"charge"`
+	Created             int64                   `json:"created"`
+	Currency            Currency                `json:"currency"`
+	Evidence            *DisputeEvidence        `json:"evidence"`
+	EvidenceDetails     *DisputeEvidenceDetails `json:"evidence_details"`
+	ID                  string                  `json:"id"`
+	IsChargeRefundable  bool                    `json:"is_charge_refundable"`
+	Livemode            bool                    `json:"livemode"`
+	Metadata            map[string]string       `json:"metadata"`
+	NetworkReasonCode   string                  `json:"network_reason_code"`
+	Object              string                  `json:"object"`
+	PaymentIntent       *PaymentIntent          `json:"payment_intent"`
+	Reason              string                  `json:"reason"`
+	Status              DisputeStatus           `json:"status"`
 }
 
 // DisputeEvidence is the structure that contains various details about
@@ -152,6 +136,13 @@ type DisputeEvidence struct {
 	ShippingTrackingNumber       string `json:"shipping_tracking_number"`
 	UncategorizedFile            *File  `json:"uncategorized_file"`
 	UncategorizedText            string `json:"uncategorized_text"`
+}
+
+// DisputeList is a list of disputes as retrieved from a list endpoint.
+type DisputeList struct {
+	APIResource
+	ListMeta
+	Data []*Dispute `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Dispute.

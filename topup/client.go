@@ -1,3 +1,10 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package topup provides the /topups APIs
 package topup
 
 import (
@@ -11,19 +18,6 @@ import (
 type Client struct {
 	B   stripe.Backend
 	Key string
-}
-
-// Cancel cancels a topup.
-func Cancel(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
-	return getC().Cancel(id, params)
-}
-
-// Cancel cancels a topup.
-func (c Client) Cancel(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
-	path := stripe.FormatURLPath("/v1/topups/%s/cancel", id)
-	topup := &stripe.Topup{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, topup)
-	return topup, err
 }
 
 // New creates a new topup.
@@ -64,6 +58,19 @@ func (c Client) Update(id string, params *stripe.TopupParams) (*stripe.Topup, er
 	return topup, err
 }
 
+// Cancel is the method for the `POST /v1/topups/{topup}/cancel` API.
+func Cancel(id string, params *stripe.TopupCancelParams) (*stripe.Topup, error) {
+	return getC().Cancel(id, params)
+}
+
+// Cancel is the method for the `POST /v1/topups/{topup}/cancel` API.
+func (c Client) Cancel(id string, params *stripe.TopupCancelParams) (*stripe.Topup, error) {
+	path := stripe.FormatURLPath("/v1/topups/%s/cancel", id)
+	topup := &stripe.Topup{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, topup)
+	return topup, err
+}
+
 // List returns a list of topups.
 func List(params *stripe.TopupListParams) *Iter {
 	return getC().List(params)
@@ -89,14 +96,14 @@ type Iter struct {
 	*stripe.Iter
 }
 
-// Topup returns the topup item which the iterator is currently pointing to.
+// Topup returns the topup which the iterator is currently pointing to.
 func (i *Iter) Topup() *stripe.Topup {
 	return i.Current().(*stripe.Topup)
 }
 
-// TopupList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// TopupList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) TopupList() *stripe.TopupList {
 	return i.List().(*stripe.TopupList)
 }

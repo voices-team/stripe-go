@@ -1,7 +1,20 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
+import "encoding/json"
+
+type SetupAttemptPaymentMethodDetailsBancontactPreferredLanguage string
+
+const (
+	SetupAttemptPaymentMethodDetailsBancontactPreferredLanguageDe SetupAttemptPaymentMethodDetailsBancontactPreferredLanguage = "de"
+	SetupAttemptPaymentMethodDetailsBancontactPreferredLanguageEn SetupAttemptPaymentMethodDetailsBancontactPreferredLanguage = "en"
+	SetupAttemptPaymentMethodDetailsBancontactPreferredLanguageFr SetupAttemptPaymentMethodDetailsBancontactPreferredLanguage = "fr"
+	SetupAttemptPaymentMethodDetailsBancontactPreferredLanguageNl SetupAttemptPaymentMethodDetailsBancontactPreferredLanguage = "nl"
 )
 
 // SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow indicates the type of 3D Secure authentication performed.
@@ -39,34 +52,57 @@ const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReasonRejected            SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
-// SetupAttemptPaymentMethodDetailsType is the type of the payment method associated with the setup attempt's payment method details.
-type SetupAttemptPaymentMethodDetailsType string
+type SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion string
 
-// List of values that SetupAttemptPaymentMethodDetailsType can take.
 const (
-	SetupAttemptPaymentMethodDetailsTypeCard SetupAttemptPaymentMethodDetailsType = "card"
+	SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion102 SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion = "1.0.2"
+	SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion210 SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion = "2.1.0"
+	SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion220 SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
 )
 
-// SetupAttemptUsage is the list of allowed values for usage.
-type SetupAttemptUsage string
+type SetupAttemptPaymentMethodDetailsIdealBank string
 
-// List of values that SetupAttemptUsage can take.
 const (
-	SetupAttemptUsageOffSession SetupAttemptUsage = "off_session"
-	SetupAttemptUsageOnSession  SetupAttemptUsage = "on_session"
+	SetupAttemptPaymentMethodDetailsIdealBankAbnAmro       SetupAttemptPaymentMethodDetailsIdealBank = "abn_amro"
+	SetupAttemptPaymentMethodDetailsIdealBankAsnBank       SetupAttemptPaymentMethodDetailsIdealBank = "asn_bank"
+	SetupAttemptPaymentMethodDetailsIdealBankBunq          SetupAttemptPaymentMethodDetailsIdealBank = "bunq"
+	SetupAttemptPaymentMethodDetailsIdealBankHandelsbanken SetupAttemptPaymentMethodDetailsIdealBank = "handelsbanken"
+	SetupAttemptPaymentMethodDetailsIdealBankIng           SetupAttemptPaymentMethodDetailsIdealBank = "ing"
+	SetupAttemptPaymentMethodDetailsIdealBankKnab          SetupAttemptPaymentMethodDetailsIdealBank = "knab"
+	SetupAttemptPaymentMethodDetailsIdealBankMoneyou       SetupAttemptPaymentMethodDetailsIdealBank = "moneyou"
+	SetupAttemptPaymentMethodDetailsIdealBankRabobank      SetupAttemptPaymentMethodDetailsIdealBank = "rabobank"
+	SetupAttemptPaymentMethodDetailsIdealBankRegiobank     SetupAttemptPaymentMethodDetailsIdealBank = "regiobank"
+	SetupAttemptPaymentMethodDetailsIdealBankRevolut       SetupAttemptPaymentMethodDetailsIdealBank = "revolut"
+	SetupAttemptPaymentMethodDetailsIdealBankSnsBank       SetupAttemptPaymentMethodDetailsIdealBank = "sns_bank"
+	SetupAttemptPaymentMethodDetailsIdealBankTriodosBank   SetupAttemptPaymentMethodDetailsIdealBank = "triodos_bank"
+	SetupAttemptPaymentMethodDetailsIdealBankVanLanschot   SetupAttemptPaymentMethodDetailsIdealBank = "van_lanschot"
 )
 
-// SetupAttemptStatus is the list of allowed values for the setup attempt's status.
-type SetupAttemptStatus string
+type SetupAttemptPaymentMethodDetailsIdealBic string
 
-// List of values that SetupAttemptStatus can take.
 const (
-	SetupAttemptStatusAbandoned            SetupAttemptStatus = "abandoned"
-	SetupAttemptStatusFailed               SetupAttemptStatus = "failed"
-	SetupAttemptStatusProcessing           SetupAttemptStatus = "processing"
-	SetupAttemptStatusRequiresAction       SetupAttemptStatus = "requires_action"
-	SetupAttemptStatusRequiresConfirmation SetupAttemptStatus = "requires_confirmation"
-	SetupAttemptStatusSucceeded            SetupAttemptStatus = "succeeded"
+	SetupAttemptPaymentMethodDetailsIdealBicABNANL2A SetupAttemptPaymentMethodDetailsIdealBic = "ABNANL2A"
+	SetupAttemptPaymentMethodDetailsIdealBicASNBNL21 SetupAttemptPaymentMethodDetailsIdealBic = "ASNBNL21"
+	SetupAttemptPaymentMethodDetailsIdealBicBUNQNL2A SetupAttemptPaymentMethodDetailsIdealBic = "BUNQNL2A"
+	SetupAttemptPaymentMethodDetailsIdealBicFVLBNL22 SetupAttemptPaymentMethodDetailsIdealBic = "FVLBNL22"
+	SetupAttemptPaymentMethodDetailsIdealBicHANDNL2A SetupAttemptPaymentMethodDetailsIdealBic = "HANDNL2A"
+	SetupAttemptPaymentMethodDetailsIdealBicINGBNL2A SetupAttemptPaymentMethodDetailsIdealBic = "INGBNL2A"
+	SetupAttemptPaymentMethodDetailsIdealBicKNABNL2H SetupAttemptPaymentMethodDetailsIdealBic = "KNABNL2H"
+	SetupAttemptPaymentMethodDetailsIdealBicMOYONL21 SetupAttemptPaymentMethodDetailsIdealBic = "MOYONL21"
+	SetupAttemptPaymentMethodDetailsIdealBicRABONL2U SetupAttemptPaymentMethodDetailsIdealBic = "RABONL2U"
+	SetupAttemptPaymentMethodDetailsIdealBicRBRBNL21 SetupAttemptPaymentMethodDetailsIdealBic = "RBRBNL21"
+	SetupAttemptPaymentMethodDetailsIdealBicREVOLT21 SetupAttemptPaymentMethodDetailsIdealBic = "REVOLT21"
+	SetupAttemptPaymentMethodDetailsIdealBicSNSBNL2A SetupAttemptPaymentMethodDetailsIdealBic = "SNSBNL2A"
+	SetupAttemptPaymentMethodDetailsIdealBicTRIONL2U SetupAttemptPaymentMethodDetailsIdealBic = "TRIONL2U"
+)
+
+type SetupAttemptPaymentMethodDetailsSofortPreferredLanguage string
+
+const (
+	SetupAttemptPaymentMethodDetailsSofortPreferredLanguageDe SetupAttemptPaymentMethodDetailsSofortPreferredLanguage = "de"
+	SetupAttemptPaymentMethodDetailsSofortPreferredLanguageEn SetupAttemptPaymentMethodDetailsSofortPreferredLanguage = "en"
+	SetupAttemptPaymentMethodDetailsSofortPreferredLanguageFr SetupAttemptPaymentMethodDetailsSofortPreferredLanguage = "fr"
+	SetupAttemptPaymentMethodDetailsSofortPreferredLanguageNl SetupAttemptPaymentMethodDetailsSofortPreferredLanguage = "nl"
 )
 
 // SetupAttemptListParams is the set of parameters that can be used when listing setup attempts.
@@ -82,60 +118,71 @@ type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
 	AuthenticationFlow SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
 	Result             SetupAttemptPaymentMethodDetailsCardThreeDSecureResult             `json:"result"`
 	ResultReason       SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
-	Version            string                                                             `json:"version"`
+	Version            SetupAttemptPaymentMethodDetailsCardThreeDSecureVersion            `json:"version"`
 }
+type SetupAttemptPaymentMethodDetailsACSSDebit struct{}
+type SetupAttemptPaymentMethodDetailsAuBECSDebit struct{}
+type SetupAttemptPaymentMethodDetailsBACSDebit struct{}
 
 // SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsBancontact struct {
-	BankCode                  string         `json:"bank_code"`
-	BankName                  string         `json:"bank_name"`
-	Bic                       string         `json:"bic"`
-	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
-	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
-	IbanLast4                 string         `json:"iban_last4"`
-	PreferredLanguage         string         `json:"preferred_language"`
-	VerifiedName              string         `json:"verified_name"`
+	BankCode                  string                                                      `json:"bank_code"`
+	BankName                  string                                                      `json:"bank_name"`
+	Bic                       string                                                      `json:"bic"`
+	GeneratedSepaDebit        *PaymentMethod                                              `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate                                                    `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string                                                      `json:"iban_last4"`
+	PreferredLanguage         SetupAttemptPaymentMethodDetailsBancontactPreferredLanguage `json:"preferred_language"`
+	VerifiedName              string                                                      `json:"verified_name"`
 }
 
 // SetupAttemptPaymentMethodDetailsCard represents details about the Card PaymentMethod.
 type SetupAttemptPaymentMethodDetailsCard struct {
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 }
+type SetupAttemptPaymentMethodDetailsCardPresent struct {
+	GeneratedCard *PaymentMethod `json:"generated_card"`
+}
 
 // SetupAttemptPaymentMethodDetailsIdeal represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsIdeal struct {
-	Bank                      string         `json:"bank"`
-	Bic                       string         `json:"bic"`
-	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
-	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
-	IbanLast4                 string         `json:"iban_last4"`
-	VerifiedName              string         `json:"verified_name"`
+	Bank                      SetupAttemptPaymentMethodDetailsIdealBank `json:"bank"`
+	Bic                       SetupAttemptPaymentMethodDetailsIdealBic  `json:"bic"`
+	GeneratedSepaDebit        *PaymentMethod                            `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate                                  `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string                                    `json:"iban_last4"`
+	VerifiedName              string                                    `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsSepaDebit struct{}
 
 // SetupAttemptPaymentMethodDetailsSofort represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsSofort struct {
-	BankCode                  string         `json:"bank_code"`
-	BankName                  string         `json:"bank_name"`
-	Bic                       string         `json:"bic"`
-	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
-	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
-	IbanLast4                 string         `json:"iban_last4"`
-	PreferredLanguage         string         `json:"preferred_language"`
-	VerifiedName              string         `json:"verified_name"`
+	BankCode                  string                                                  `json:"bank_code"`
+	BankName                  string                                                  `json:"bank_name"`
+	Bic                       string                                                  `json:"bic"`
+	GeneratedSepaDebit        *PaymentMethod                                          `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate                                                `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string                                                  `json:"iban_last4"`
+	PreferredLanguage         SetupAttemptPaymentMethodDetailsSofortPreferredLanguage `json:"preferred_language"`
+	VerifiedName              string                                                  `json:"verified_name"`
 }
 
 // SetupAttemptPaymentMethodDetails represents the details about the PaymentMethod associated with the setup attempt.
 type SetupAttemptPaymentMethodDetails struct {
-	Bancontact *SetupAttemptPaymentMethodDetailsBancontact `json:"bancontact"`
-	Card       *SetupAttemptPaymentMethodDetailsCard       `json:"card"`
-	Ideal      *SetupAttemptPaymentMethodDetailsIdeal      `json:"ideal"`
-	Sofort     *SetupAttemptPaymentMethodDetailsSofort     `json:"sofort"`
-	Type       SetupAttemptPaymentMethodDetailsType        `json:"type"`
+	ACSSDebit   *SetupAttemptPaymentMethodDetailsACSSDebit   `json:"acss_debit"`
+	AuBECSDebit *SetupAttemptPaymentMethodDetailsAuBECSDebit `json:"au_becs_debit"`
+	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
+	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
+	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
+	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
+	Ideal       *SetupAttemptPaymentMethodDetailsIdeal       `json:"ideal"`
+	SepaDebit   *SetupAttemptPaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
+	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
+	Type        string                                       `json:"type"`
 }
 
 // SetupAttempt is the resource representing a Stripe setup attempt.
 type SetupAttempt struct {
-	APIResource
 	Application          *Application                      `json:"application"`
 	Created              int64                             `json:"created"`
 	Customer             *Customer                         `json:"customer"`
@@ -146,8 +193,9 @@ type SetupAttempt struct {
 	PaymentMethod        *PaymentMethod                    `json:"payment_method"`
 	PaymentMethodDetails *SetupAttemptPaymentMethodDetails `json:"payment_method_details"`
 	SetupError           *Error                            `json:"setup_error"`
-	Status               SetupAttemptStatus                `json:"status"`
-	Usage                SetupAttemptUsage                 `json:"usage"`
+	SetupIntent          *SetupIntent                      `json:"setup_intent"`
+	Status               string                            `json:"status"`
+	Usage                string                            `json:"usage"`
 }
 
 // SetupAttemptList is a list of setup attempts as retrieved from a list endpoint.
@@ -160,9 +208,9 @@ type SetupAttemptList struct {
 // UnmarshalJSON handles deserialization of a SetupAttempt.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (p *SetupAttempt) UnmarshalJSON(data []byte) error {
+func (s *SetupAttempt) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		p.ID = id
+		s.ID = id
 		return nil
 	}
 
@@ -172,6 +220,6 @@ func (p *SetupAttempt) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*p = SetupAttempt(v)
+	*s = SetupAttempt(v)
 	return nil
 }

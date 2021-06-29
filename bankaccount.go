@@ -1,11 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-	"strconv"
-
-	"github.com/stripe/stripe-go/v72/form"
-)
+import "encoding/json"
 
 // BankAccountAvailablePayoutMethod is a set of available payout methods for the card.
 type BankAccountAvailablePayoutMethod string
@@ -16,136 +17,41 @@ const (
 	BankAccountAvailablePayoutMethodStandard BankAccountAvailablePayoutMethod = "standard"
 )
 
-// BankAccountStatus is the list of allowed values for the bank account's status.
-type BankAccountStatus string
-
-// List of values that BankAccountStatus can take.
-const (
-	BankAccountStatusErrored            BankAccountStatus = "errored"
-	BankAccountStatusNew                BankAccountStatus = "new"
-	BankAccountStatusValidated          BankAccountStatus = "validated"
-	BankAccountStatusVerificationFailed BankAccountStatus = "verification_failed"
-	BankAccountStatusVerified           BankAccountStatus = "verified"
-)
-
-// BankAccountAccountHolderType is the list of allowed values for the bank account holder type.
-type BankAccountAccountHolderType string
-
-// List of values that BankAccountAccountHolderType can take.
-const (
-	BankAccountAccountHolderTypeCompany    BankAccountAccountHolderType = "company"
-	BankAccountAccountHolderTypeIndividual BankAccountAccountHolderType = "individual"
-)
+type BankAccountOwnerParams struct {
+	Address *AddressParams `form:"address"`
+	Email   *string        `form:"email"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
+}
 
 // BankAccountParams is the set of parameters that can be used when updating a
 // bank account.
-//
+// //
 // Note that while form annotations are used for updates, bank accounts have
 // some unusual logic on creates that necessitates manual handling of all
 // parameters. See AppendToAsSourceOrExternalAccount.
 type BankAccountParams struct {
-	Params `form:"*"`
-
-	// Account is the identifier of the parent account under which bank
-	// accounts are nested.
-	Account *string `form:"-"`
-
-	AccountHolderName  *string `form:"account_holder_name"`
-	AccountHolderType  *string `form:"account_holder_type"`
-	AccountNumber      *string `form:"account_number"`
-	Country            *string `form:"country"`
-	Currency           *string `form:"currency"`
-	Customer           *string `form:"-"`
-	DefaultForCurrency *bool   `form:"default_for_currency"`
-	RoutingNumber      *string `form:"routing_number"`
-
-	// Token is a token referencing an external account like one returned from
-	// Stripe.js.
-	Token *string `form:"-"`
-
-	// ID is used when tokenizing a bank account for shared customers
-	ID *string `form:"*"`
+	Params             `form:"*"`
+	Account            *string                 `form:"-"` // Included in URL
+	Customer           *string                 `form:"-"` // Included in URL
+	AccountHolderName  *string                 `form:"account_holder_name"`
+	AccountHolderType  *string                 `form:"account_holder_type"`
+	AddressCity        *string                 `form:"address_city"`
+	AddressCountry     *string                 `form:"address_country"`
+	AddressLine1       *string                 `form:"address_line1"`
+	AddressLine2       *string                 `form:"address_line2"`
+	AddressState       *string                 `form:"address_state"`
+	AddressZip         *string                 `form:"address_zip"`
+	DefaultForCurrency *bool                   `form:"default_for_currency"`
+	ExpMonth           *string                 `form:"exp_month"`
+	ExpYear            *string                 `form:"exp_year"`
+	Name               *string                 `form:"name"`
+	Owner              *BankAccountOwnerParams `form:"owner"`
 }
-
-// AppendToAsSourceOrExternalAccount appends the given BankAccountParams as
-// either a source or external account.
-//
-// It may look like an AppendTo from the form package, but it's not, and is
-// only used in the special case where we use `bankaccount.New`. It's needed
-// because we have some weird encoding logic here that can't be handled by the
-// form package (and it's special enough that it wouldn't be desirable to have
-// it do so).
-//
-// This is not a pattern that we want to push forward, and this largely exists
-// because the bank accounts endpoint is a little unusual. There is one other
-// resource like it, which is cards.
-func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
-	// Rather than being called in addition to `AppendTo`, this function
-	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
-	// of `Params` so metadata and the like is included in the encoded payload.
-	form.AppendTo(body, a.Params)
-
-	isCustomer := a.Customer != nil
-
-	var sourceType string
-	if isCustomer {
-		sourceType = "source"
-	} else {
-		sourceType = "external_account"
-	}
-
-	// Use token (if exists) or a dictionary containing a user’s bank account details.
-	if a.Token != nil {
-		body.Add(sourceType, StringValue(a.Token))
-
-		if a.DefaultForCurrency != nil {
-			body.Add("default_for_currency", strconv.FormatBool(BoolValue(a.DefaultForCurrency)))
-		}
-	} else {
-		body.Add(sourceType+"[object]", "bank_account")
-		body.Add(sourceType+"[country]", StringValue(a.Country))
-		body.Add(sourceType+"[account_number]", StringValue(a.AccountNumber))
-		body.Add(sourceType+"[currency]", StringValue(a.Currency))
-
-		// These are optional and the API will fail if we try to send empty
-		// values in for them, so make sure to check that they're actually set
-		// before encoding them.
-		if a.AccountHolderName != nil {
-			body.Add(sourceType+"[account_holder_name]", StringValue(a.AccountHolderName))
-		}
-
-		if a.AccountHolderType != nil {
-			body.Add(sourceType+"[account_holder_type]", StringValue(a.AccountHolderType))
-		}
-
-		if a.RoutingNumber != nil {
-			body.Add(sourceType+"[routing_number]", StringValue(a.RoutingNumber))
-		}
-
-		if a.DefaultForCurrency != nil {
-			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(BoolValue(a.DefaultForCurrency)))
-		}
-	}
-}
-
-// BankAccountListParams is the set of parameters that can be used when listing bank accounts.
-type BankAccountListParams struct {
-	ListParams `form:"*"`
-
-	// The identifier of the parent account under which the bank accounts are
-	// nested. Either Account or Customer should be populated.
-	Account *string `form:"-"`
-
-	// The identifier of the parent customer under which the bank accounts are
-	// nested. Either Account or Customer should be populated.
-	Customer *string `form:"-"`
-}
-
-// AppendTo implements custom encoding logic for BankAccountListParams
-// so that we can send the special required `object` field up along with the
-// other specified parameters.
-func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
-	body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
+type BankAccountVerifyParams struct {
+	Params   `form:"*"`
+	Customer *string  `form:"-"` // Included in URL
+	Amounts  []*int64 `form:"amounts"`
 }
 
 // BankAccount represents a Stripe bank account.
@@ -153,7 +59,7 @@ type BankAccount struct {
 	APIResource
 	Account                *Account                           `json:"account"`
 	AccountHolderName      string                             `json:"account_holder_name"`
-	AccountHolderType      BankAccountAccountHolderType       `json:"account_holder_type"`
+	AccountHolderType      string                             `json:"account_holder_type"`
 	AvailablePayoutMethods []BankAccountAvailablePayoutMethod `json:"available_payout_methods"`
 	BankName               string                             `json:"bank_name"`
 	Country                string                             `json:"country"`
@@ -167,14 +73,7 @@ type BankAccount struct {
 	Metadata               map[string]string                  `json:"metadata"`
 	Object                 string                             `json:"object"`
 	RoutingNumber          string                             `json:"routing_number"`
-	Status                 BankAccountStatus                  `json:"status"`
-}
-
-// BankAccountList is a list object for bank accounts.
-type BankAccountList struct {
-	APIResource
-	ListMeta
-	Data []*BankAccount `json:"data"`
+	Status                 string                             `json:"status"`
 }
 
 // UnmarshalJSON handles deserialization of a BankAccount.
