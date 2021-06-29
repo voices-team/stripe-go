@@ -420,6 +420,9 @@ type ChargePaymentMethodDetailsBancontact struct {
 	PreferredLanguage         ChargePaymentMethodDetailsBancontactPreferredLanguage `json:"preferred_language"`
 	VerifiedName              string                                                `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsBoleto struct {
+	TaxID string `json:"tax_id"`
+}
 
 // ChargePaymentMethodDetailsCardChecks represents the checks associated with the charge's Card
 // PaymentMethod.
@@ -681,6 +684,7 @@ type ChargePaymentMethodDetails struct {
 	AuBECSDebit        *ChargePaymentMethodDetailsAuBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
+	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
 	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
 	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present"`
 	EPS                *ChargePaymentMethodDetailsEPS                `json:"eps"`

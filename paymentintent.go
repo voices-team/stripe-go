@@ -192,6 +192,9 @@ type PaymentIntentConfirmPaymentMethodDataBillingDetailsParams struct {
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
 }
+type PaymentIntentConfirmPaymentMethodDataBoletoParams struct {
+	TaxID *string `form:"tax_id"`
+}
 type PaymentIntentConfirmPaymentMethodDataEPSParams struct {
 	Bank *string `form:"bank"`
 }
@@ -223,6 +226,7 @@ type PaymentIntentConfirmPaymentMethodDataParams struct {
 	BACSDebit        *PaymentIntentConfirmPaymentMethodDataBACSDebitParams        `form:"bacs_debit"`
 	Bancontact       *PaymentIntentConfirmPaymentMethodDataBancontactParams       `form:"bancontact"`
 	BillingDetails   *PaymentIntentConfirmPaymentMethodDataBillingDetailsParams   `form:"billing_details"`
+	Boleto           *PaymentIntentConfirmPaymentMethodDataBoletoParams           `form:"boleto"`
 	EPS              *PaymentIntentConfirmPaymentMethodDataEPSParams              `form:"eps"`
 	FPX              *PaymentIntentConfirmPaymentMethodDataFPXParams              `form:"fpx"`
 	Giropay          *PaymentIntentConfirmPaymentMethodDataGiropayParams          `form:"giropay"`
@@ -252,6 +256,9 @@ type PaymentIntentConfirmPaymentMethodOptionsAfterpayClearpayParams struct {
 type PaymentIntentConfirmPaymentMethodOptionsAlipayParams struct{}
 type PaymentIntentConfirmPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language"`
+}
+type PaymentIntentConfirmPaymentMethodOptionsBoletoParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 type PaymentIntentConfirmPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	Count    *int64  `form:"count"`
@@ -288,6 +295,7 @@ type PaymentIntentConfirmPaymentMethodOptionsParams struct {
 	AfterpayClearpay *PaymentIntentConfirmPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentIntentConfirmPaymentMethodOptionsAlipayParams           `form:"alipay"`
 	Bancontact       *PaymentIntentConfirmPaymentMethodOptionsBancontactParams       `form:"bancontact"`
+	Boleto           *PaymentIntentConfirmPaymentMethodOptionsBoletoParams           `form:"boleto"`
 	Card             *PaymentIntentConfirmPaymentMethodOptionsCardParams             `form:"card"`
 	CardPresent      *PaymentIntentConfirmPaymentMethodOptionsCardPresentParams      `form:"card_present"`
 	OXXO             *PaymentIntentConfirmPaymentMethodOptionsOXXOParams             `form:"oxxo"`
@@ -360,6 +368,9 @@ type PaymentIntentPaymentMethodDataBillingDetailsParams struct {
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
 }
+type PaymentIntentPaymentMethodDataBoletoParams struct {
+	TaxID *string `form:"tax_id"`
+}
 type PaymentIntentPaymentMethodDataEPSParams struct {
 	Bank *string `form:"bank"`
 }
@@ -394,6 +405,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	BACSDebit        *PaymentIntentPaymentMethodDataBACSDebitParams        `form:"bacs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodDataBancontactParams       `form:"bancontact"`
 	BillingDetails   *PaymentIntentPaymentMethodDataBillingDetailsParams   `form:"billing_details"`
+	Boleto           *PaymentIntentPaymentMethodDataBoletoParams           `form:"boleto"`
 	EPS              *PaymentIntentPaymentMethodDataEPSParams              `form:"eps"`
 	FPX              *PaymentIntentPaymentMethodDataFPXParams              `form:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodDataGiropayParams          `form:"giropay"`
@@ -438,6 +450,9 @@ type PaymentIntentPaymentMethodOptionsAlipayParams struct{}
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language"`
+}
+type PaymentIntentPaymentMethodOptionsBoletoParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams represents details about the
@@ -492,6 +507,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipayParams           `form:"alipay"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
+	Boleto           *PaymentIntentPaymentMethodOptionsBoletoParams           `form:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresentParams      `form:"card_present"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
@@ -555,6 +571,12 @@ type PaymentIntentNextActionAlipayHandleRedirect struct {
 	ReturnURL  string `json:"return_url"`
 	URL        string `json:"url"`
 }
+type PaymentIntentNextActionBoletoDisplayDetails struct {
+	ExpiresAt        int64  `json:"expires_at"`
+	HostedVoucherURL string `json:"hosted_voucher_url"`
+	Number           string `json:"number"`
+	PDF              string `json:"pdf"`
+}
 
 // PaymentIntentNextActionOXXODisplayDetails represents the resource for the next action of type
 // "oxxo_display_details".
@@ -584,11 +606,15 @@ type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 // PaymentIntentNextAction represents the type of action to take on a payment intent.
 type PaymentIntentNextAction struct {
 	AlipayHandleRedirect    *PaymentIntentNextActionAlipayHandleRedirect    `json:"alipay_handle_redirect"`
+	BoletoDisplayDetails    *PaymentIntentNextActionBoletoDisplayDetails    `json:"boleto_display_details"`
 	OXXODisplayDetails      *PaymentIntentNextActionOXXODisplayDetails      `json:"oxxo_display_details"`
 	RedirectToURL           *PaymentIntentNextActionRedirectToURL           `json:"redirect_to_url"`
 	Type                    string                                          `json:"type"`
 	UseStripeSDK            *PaymentIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits *PaymentIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
+}
+type PaymentIntentPaymentMethodOptionsBoleto struct {
+	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
 type PaymentIntentPaymentMethodOptionsCardInstallmentsAvailablePlan struct {
 	Count    int64   `json:"count"`
@@ -676,6 +702,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
+	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
