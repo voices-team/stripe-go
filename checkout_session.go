@@ -19,10 +19,10 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDsTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDsType = "br_cnpj"
 	CheckoutSessionCustomerDetailsTaxIDsTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDsType = "br_cpf"
 	CheckoutSessionCustomerDetailsTaxIDsTypeCABN     CheckoutSessionCustomerDetailsTaxIDsType = "ca_bn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCaGSTHST CheckoutSessionCustomerDetailsTaxIDsType = "ca_gst_hst"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCaPSTBc  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_bc"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCaPSTMb  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_mb"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCaPSTSk  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_sk"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCAGSTHST CheckoutSessionCustomerDetailsTaxIDsType = "ca_gst_hst"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCAPSTBC  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_bc"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCAPSTMB  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_mb"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCAPSTSK  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_sk"
 	CheckoutSessionCustomerDetailsTaxIDsTypeCAQST    CheckoutSessionCustomerDetailsTaxIDsType = "ca_qst"
 	CheckoutSessionCustomerDetailsTaxIDsTypeCHVAT    CheckoutSessionCustomerDetailsTaxIDsType = "ch_vat"
 	CheckoutSessionCustomerDetailsTaxIDsTypeCLTIN    CheckoutSessionCustomerDetailsTaxIDsType = "cl_tin"
@@ -255,10 +255,18 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	VerificationMethod *string                                                           `form:"verification_method"`
 }
+type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
+type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
 
 // CheckoutSessionPaymentMethodOptionsParams is the set of allowed parameters for payment_method_options on a checkout session.
 type CheckoutSessionPaymentMethodOptionsParams struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	Boleto    *CheckoutSessionPaymentMethodOptionsBoletoParams    `form:"boleto"`
+	OXXO      *CheckoutSessionPaymentMethodOptionsOXXOParams      `form:"oxxo"`
 }
 
 // CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
@@ -379,10 +387,18 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
+type CheckoutSessionPaymentMethodOptionsBoleto struct {
+	ExpiresAfterDays int64 `json:"expires_after_days"`
+}
+type CheckoutSessionPaymentMethodOptionsOXXO struct {
+	ExpiresAfterDays int64 `json:"expires_after_days"`
+}
 
 // CheckoutSessionPaymentMethodOptions represent payment-method-specific options for a checkout session.
 type CheckoutSessionPaymentMethodOptions struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
+	Boleto    *CheckoutSessionPaymentMethodOptionsBoleto    `json:"boleto"`
+	OXXO      *CheckoutSessionPaymentMethodOptionsOXXO      `json:"oxxo"`
 }
 
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
