@@ -723,6 +723,7 @@ type AccountIndividualParams struct {
 	FirstName         *string                              `form:"first_name"`
 	FirstNameKana     *string                              `form:"first_name_kana"`
 	FirstNameKanji    *string                              `form:"first_name_kanji"`
+	FullNameAliases   []*string                            `form:"full_name_aliases"`
 	Gender            *string                              `form:"gender"`
 	IDNumber          *string                              `form:"id_number"`
 	LastName          *string                              `form:"last_name"`
