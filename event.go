@@ -1,58 +1,15 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
-
-import (
-	"encoding/json"
-	"fmt"
-	"strconv"
-)
-
-// Event is the resource representing a Stripe event.
-// For more details see https://stripe.com/docs/api#events.
-type Event struct {
-	APIResource
-	Account         string        `json:"account"`
-	Created         int64         `json:"created"`
-	Data            *EventData    `json:"data"`
-	ID              string        `json:"id"`
-	Livemode        bool          `json:"livemode"`
-	PendingWebhooks int64         `json:"pending_webhooks"`
-	Request         *EventRequest `json:"request"`
-	Type            string        `json:"type"`
-}
-
-// EventRequest contains information on a request that created an event.
-type EventRequest struct {
-	// ID is the request ID of the request that created an event, if the event
-	// was created by a request.
-	ID string `json:"id"`
-
-	// IdempotencyKey is the idempotency key of the request that created an
-	// event, if the event was created by a request and if an idempotency key
-	// was specified for that request.
-	IdempotencyKey string `json:"idempotency_key"`
-}
-
-// EventData is the unmarshalled object as a map.
-type EventData struct {
-	// Object is a raw mapping of the API resource contained in the event.
-	// Although marked with json:"-", it's still populated independently by
-	// a custom UnmarshalJSON implementation.
-	Object             map[string]interface{} `json:"-"`
-	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
-	Raw                json.RawMessage        `json:"object"`
-}
 
 // EventParams is the set of parameters that can be used when retrieving events.
 // For more details see https://stripe.com/docs/api#retrieve_events.
 type EventParams struct {
 	Params `form:"*"`
-}
-
-// EventList is a list of events as retrieved from a list endpoint.
-type EventList struct {
-	APIResource
-	ListMeta
-	Data []*Event `json:"data"`
 }
 
 // EventListParams is the set of parameters that can be used when listing events.
@@ -66,62 +23,43 @@ type EventListParams struct {
 	Types           []*string         `form:"types"`
 }
 
-// GetObjectValue returns the value from the e.Data.Object bag based on the keys hierarchy.
-func (e *Event) GetObjectValue(keys ...string) string {
-	return getValue(e.Data.Object, keys)
+// Event is the resource representing a Stripe event.
+// For more details see https://stripe.com/docs/api#events.
+type Event struct {
+	APIResource
+	Account         string        `json:"account"`
+	APIVersion      string        `json:"api_version"`
+	Created         int64         `json:"created"`
+	Data            *EventData    `json:"data"`
+	ID              string        `json:"id"`
+	Livemode        bool          `json:"livemode"`
+	Object          string        `json:"object"`
+	PendingWebhooks int64         `json:"pending_webhooks"`
+	Request         *EventRequest `json:"request"`
+	Type            string        `json:"type"`
 }
 
-// GetPreviousValue returns the value from the e.Data.Prev bag based on the keys hierarchy.
-func (e *Event) GetPreviousValue(keys ...string) string {
-	return getValue(e.Data.PreviousAttributes, keys)
+// EventRequest contains information on a request that created an event.
+type EventRequest struct {
+	ID             string `json:"id"`
+	IdempotencyKey string `json:"idempotency_key"`
 }
 
-// UnmarshalJSON handles deserialization of the EventData.
-// This custom unmarshaling exists so that we can keep both the map and raw data.
-func (e *EventData) UnmarshalJSON(data []byte) error {
-	type eventdata EventData
-	var ee eventdata
-	err := json.Unmarshal(data, &ee)
-	if err != nil {
-		return err
-	}
+// Object containing the API resource relevant to the event. For example, an `invoice.created` event will have a full [invoice object](https://stripe.com/docs/api#invoice_object) as the value of the object key.
+type EventDataObject struct{}
 
-	*e = EventData(ee)
-	return json.Unmarshal(e.Raw, &e.Object)
+// Object containing the names of the attributes that have changed, and their previous values (sent along only with *.updated events).
+type EventDataPreviousAttributes struct{}
+
+// EventData is the unmarshalled object as a map.
+type EventData struct {
+	Object             *EventDataObject             `json:"object"`
+	PreviousAttributes *EventDataPreviousAttributes `json:"previous_attributes"`
 }
 
-// getValue returns the value from the m map based on the keys.
-func getValue(m map[string]interface{}, keys []string) string {
-	node := m[keys[0]]
-
-	for i := 1; i < len(keys); i++ {
-		key := keys[i]
-
-		sliceNode, ok := node.([]interface{})
-		if ok {
-			intKey, err := strconv.Atoi(key)
-			if err != nil {
-				panic(fmt.Sprintf(
-					"Cannot access nested slice element with non-integer key: %s",
-					key))
-			}
-			node = sliceNode[intKey]
-			continue
-		}
-
-		mapNode, ok := node.(map[string]interface{})
-		if ok {
-			node = mapNode[key]
-			continue
-		}
-
-		panic(fmt.Sprintf(
-			"Cannot descend into non-map non-slice object with key: %s", key))
-	}
-
-	if node == nil {
-		return ""
-	}
-
-	return fmt.Sprintf("%v", node)
+// EventList is a list of events as retrieved from a list endpoint.
+type EventList struct {
+	APIResource
+	ListMeta
+	Data []*Event `json:"data"`
 }

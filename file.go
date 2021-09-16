@@ -1,15 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"bytes"
-	"encoding/json"
-	"io"
-	"mime/multipart"
-	"net/url"
-	"path/filepath"
-
-	"github.com/stripe/stripe-go/v72/form"
-)
+import "encoding/json"
 
 // FilePurpose is the purpose of a particular file.
 type FilePurpose string
@@ -21,12 +18,13 @@ const (
 	FilePurposeBusinessIcon                     FilePurpose = "business_icon"
 	FilePurposeBusinessLogo                     FilePurpose = "business_logo"
 	FilePurposeCustomerSignature                FilePurpose = "customer_signature"
-	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
+	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
-	FilePurposeFoundersStockDocument            FilePurpose = "founders_stock_document"
 	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
-	FilePurposePCIDocument                      FilePurpose = "pci_document"
+	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
+	FilePurposePciDocument                      FilePurpose = "pci_document"
+	FilePurposeSelfie                           FilePurpose = "selfie"
 	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
 )
@@ -35,24 +33,6 @@ const (
 // For more details see https://stripe.com/docs/api#create_file.
 type FileParams struct {
 	Params `form:"*"`
-
-	// FileReader is a reader with the contents of the file that should be uploaded.
-	FileReader io.Reader
-
-	// Filename is just the name of the file without path information.
-	Filename *string
-
-	Purpose *string
-
-	FileLinkData *FileFileLinkDataParams
-}
-
-// FileFileLinkDataParams is the set of parameters allowed for the
-// file_link_data hash.
-type FileFileLinkDataParams struct {
-	Params    `form:"*"`
-	Create    *bool  `form:"create"`
-	ExpiresAt *int64 `form:"expires_at"`
 }
 
 // FileListParams is the set of parameters that can be used when listing
@@ -76,6 +56,7 @@ type File struct {
 	Object    string        `json:"object"`
 	Purpose   FilePurpose   `json:"purpose"`
 	Size      int64         `json:"size"`
+	Title     string        `json:"title"`
 	Type      string        `json:"type"`
 	URL       string        `json:"url"`
 }
@@ -85,55 +66,6 @@ type FileList struct {
 	APIResource
 	ListMeta
 	Data []*File `json:"data"`
-}
-
-// GetBody gets an appropriate multipart form payload to use in a request body
-// to create a new file.
-func (f *FileParams) GetBody() (*bytes.Buffer, string, error) {
-	body := &bytes.Buffer{}
-	writer := multipart.NewWriter(body)
-
-	if f.Purpose != nil {
-		err := writer.WriteField("purpose", StringValue(f.Purpose))
-		if err != nil {
-			return nil, "", err
-		}
-	}
-
-	if f.FileReader != nil && f.Filename != nil {
-		part, err := writer.CreateFormFile("file", filepath.Base(StringValue(f.Filename)))
-		if err != nil {
-			return nil, "", err
-		}
-
-		_, err = io.Copy(part, f.FileReader)
-		if err != nil {
-			return nil, "", err
-		}
-	}
-
-	if f.FileLinkData != nil {
-		values := &form.Values{}
-		form.AppendToPrefixed(values, f.FileLinkData, []string{"file_link_data"})
-
-		params, err := url.ParseQuery(values.Encode())
-		if err != nil {
-			return nil, "", err
-		}
-		for key, values := range params {
-			err := writer.WriteField(key, values[0])
-			if err != nil {
-				return nil, "", err
-			}
-		}
-	}
-
-	err := writer.Close()
-	if err != nil {
-		return nil, "", err
-	}
-
-	return body, writer.Boundary(), nil
 }
 
 // UnmarshalJSON handles deserialization of a File.

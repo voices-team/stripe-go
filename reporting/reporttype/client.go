@@ -1,6 +1,10 @@
-// Package reporttype provides API functions related to report types.
 //
-// For more details, see: https://stripe.com/docs/api/go#reporting_report_type
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package reporttype provides the /reporting/report_types APIs
 package reporttype
 
 import (
@@ -16,45 +20,47 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a report type.
-func Get(id string, params *stripe.ReportTypeParams) (*stripe.ReportType, error) {
+// Get returns the details of a reporting report type.
+func Get(id string, params *stripe.ReportTypeParams) (*stripe.ReportingReportType, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a report type.
-func (c Client) Get(id string, params *stripe.ReportTypeParams) (*stripe.ReportType, error) {
+// Get returns the details of a reporting report type.
+func (c Client) Get(id string, params *stripe.ReportTypeParams) (*stripe.ReportingReportType, error) {
 	path := stripe.FormatURLPath("/v1/reporting/report_types/%s", id)
-	reporttype := &stripe.ReportType{}
+	reporttype := &stripe.ReportingReportType{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reporttype)
 	return reporttype, err
 }
 
-// List returns a list of report types.
+// List returns a list of reporting report types.
 func List(params *stripe.ReportTypeListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of report types.
+// List returns a list of reporting report types.
 func (c Client) List(listParams *stripe.ReportTypeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.ReportTypeList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.ReportTypeList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
-// Iter is an iterator for report types.
+// Iter is an iterator for reporting report types.
 type Iter struct {
 	*stripe.Iter
 }
 
-// ReportType returns the report type which the iterator is currently pointing to.
+// ReportType returns the reporting report type which the iterator is currently pointing to.
 func (i *Iter) ReportType() *stripe.ReportType {
 	return i.Current().(*stripe.ReportType)
 }

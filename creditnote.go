@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -31,15 +37,6 @@ const (
 	CreditNoteTypePrePayment  CreditNoteType = "pre_payment"
 )
 
-// CreditNoteLineItemType is the list of allowed values for the credit note line item's type.
-type CreditNoteLineItemType string
-
-// List of values that CreditNoteType can take.
-const (
-	CreditNoteLineItemTypeCustomLineItem  CreditNoteLineItemType = "custom_line_item"
-	CreditNoteLineItemTypeInvoiceLineItem CreditNoteLineItemType = "invoice_line_item"
-)
-
 // CreditNoteParams is the set of parameters that can be used when creating or updating a credit note.
 // For more details see https://stripe.com/docs/api/credit_notes/create, https://stripe.com/docs/api/credit_notes/update.
 type CreditNoteParams struct {
@@ -63,28 +60,6 @@ type CreditNoteListParams struct {
 	Invoice    *string `form:"invoice"`
 }
 
-// CreditNoteLineItemListParams is the set of parameters that can be used when listing credit note line items.
-type CreditNoteLineItemListParams struct {
-	ListParams `form:"*"`
-
-	// ID is the credit note ID to list line items for.
-	ID *string `form:"-"` // Goes in the URL
-}
-
-// CreditNoteLineItemListPreviewParams is the set of parameters that can be used when previewing a credit note's line items
-type CreditNoteLineItemListPreviewParams struct {
-	ListParams      `form:"*"`
-	Amount          *int64                  `form:"amount"`
-	CreditAmount    *int64                  `form:"credit_amount"`
-	Invoice         *string                 `form:"invoice"`
-	Lines           []*CreditNoteLineParams `form:"lines"`
-	Memo            *string                 `form:"memo"`
-	OutOfBandAmount *int64                  `form:"out_of_band_amount"`
-	Reason          *string                 `form:"reason"`
-	Refund          *string                 `form:"refund"`
-	RefundAmount    *int64                  `form:"refund_amount"`
-}
-
 // CreditNoteLineParams is the set of parameters that can be used for a line item when creating
 // or previewing a credit note.
 type CreditNoteLineParams struct {
@@ -93,29 +68,67 @@ type CreditNoteLineParams struct {
 	InvoiceLineItem   *string   `form:"invoice_line_item"`
 	Quantity          *int64    `form:"quantity"`
 	TaxRates          []*string `form:"tax_rates"`
+	Type              *string   `form:"type"`
 	UnitAmount        *int64    `form:"unit_amount"`
 	UnitAmountDecimal *float64  `form:"unit_amount_decimal,high_precision"`
+}
+
+// Line items that make up the credit note.
+type CreditNotePreviewLineParams struct {
+	Amount            *int64    `form:"amount"`
+	Description       *string   `form:"description"`
+	InvoiceLineItem   *string   `form:"invoice_line_item"`
+	Quantity          *int64    `form:"quantity"`
+	TaxRates          []*string `form:"tax_rates"`
 	Type              *string   `form:"type"`
+	UnitAmount        *int64    `form:"unit_amount"`
+	UnitAmountDecimal *float64  `form:"unit_amount_decimal,high_precision"`
 }
 
 // CreditNotePreviewParams is the set of parameters that can be used when previewing a credit note.
 // For more details see https://stripe.com/docs/api/credit_notes/preview.
 type CreditNotePreviewParams struct {
 	Params          `form:"*"`
-	Amount          *int64                  `form:"amount"`
-	CreditAmount    *int64                  `form:"credit_amount"`
-	Invoice         *string                 `form:"invoice"`
-	Lines           []*CreditNoteLineParams `form:"lines"`
-	Memo            *string                 `form:"memo"`
-	OutOfBandAmount *int64                  `form:"out_of_band_amount"`
-	Reason          *string                 `form:"reason"`
-	Refund          *string                 `form:"refund"`
-	RefundAmount    *int64                  `form:"refund_amount"`
+	Amount          *int64                         `form:"amount"`
+	CreditAmount    *int64                         `form:"credit_amount"`
+	Invoice         *string                        `form:"invoice"`
+	Lines           []*CreditNotePreviewLineParams `form:"lines"`
+	Memo            *string                        `form:"memo"`
+	OutOfBandAmount *int64                         `form:"out_of_band_amount"`
+	Reason          *string                        `form:"reason"`
+	Refund          *string                        `form:"refund"`
+	RefundAmount    *int64                         `form:"refund_amount"`
 }
 
-// CreditNoteVoidParams is the set of parameters that can be used when voiding invoices.
-type CreditNoteVoidParams struct {
+// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+type CreditNoteVoidCreditNoteParams struct {
 	Params `form:"*"`
+}
+
+// Line items that make up the credit note.
+type CreditNotePreviewLinesLineParams struct {
+	Amount            *int64    `form:"amount"`
+	Description       *string   `form:"description"`
+	InvoiceLineItem   *string   `form:"invoice_line_item"`
+	Quantity          *int64    `form:"quantity"`
+	TaxRates          []*string `form:"tax_rates"`
+	Type              *string   `form:"type"`
+	UnitAmount        *int64    `form:"unit_amount"`
+	UnitAmountDecimal *float64  `form:"unit_amount_decimal,high_precision"`
+}
+
+// When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
+type CreditNotePreviewLinesParams struct {
+	ListParams      `form:"*"`
+	Amount          *int64                              `form:"amount"`
+	CreditAmount    *int64                              `form:"credit_amount"`
+	Invoice         *string                             `form:"invoice"`
+	Lines           []*CreditNotePreviewLinesLineParams `form:"lines"`
+	Memo            *string                             `form:"memo"`
+	OutOfBandAmount *int64                              `form:"out_of_band_amount"`
+	Reason          *string                             `form:"reason"`
+	Refund          *string                             `form:"refund"`
+	RefundAmount    *int64                              `form:"refund_amount"`
 }
 
 // CreditNoteDiscountAmount represents the aggregate amounts calculated per discount for all line items.
@@ -142,8 +155,8 @@ type CreditNote struct {
 	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
 	DiscountAmount             int64                       `json:"discount_amount"`
 	DiscountAmounts            []*CreditNoteDiscountAmount `json:"discount_amounts"`
-	Invoice                    *Invoice                    `json:"invoice"`
 	ID                         string                      `json:"id"`
+	Invoice                    *Invoice                    `json:"invoice"`
 	Lines                      *CreditNoteLineItemList     `json:"lines"`
 	Livemode                   bool                        `json:"livemode"`
 	Memo                       string                      `json:"memo"`
@@ -162,31 +175,6 @@ type CreditNote struct {
 	VoidedAt                   int64                       `json:"voided_at"`
 }
 
-// CreditNoteLineItemDiscountAmount represents the amount of discount calculated per discount for this line item.
-type CreditNoteLineItemDiscountAmount struct {
-	Amount   int64     `json:"amount"`
-	Discount *Discount `json:"discount"`
-}
-
-// CreditNoteLineItem is the resource representing a Stripe credit note line item.
-// For more details see https://stripe.com/docs/api/credit_notes/line_item
-type CreditNoteLineItem struct {
-	Amount            int64                               `json:"amount"`
-	Description       string                              `json:"description"`
-	DiscountAmount    int64                               `json:"discount_amount"`
-	DiscountAmounts   []*CreditNoteLineItemDiscountAmount `json:"discount_amounts"`
-	ID                string                              `json:"id"`
-	InvoiceLineItem   string                              `json:"invoice_line_item"`
-	Livemode          bool                                `json:"livemode"`
-	Object            string                              `json:"object"`
-	Quantity          int64                               `json:"quantity"`
-	TaxAmounts        []*CreditNoteTaxAmount              `json:"tax_amounts"`
-	TaxRates          []*TaxRate                          `json:"tax_rates"`
-	Type              CreditNoteLineItemType              `json:"type"`
-	UnitAmount        int64                               `json:"unit_amount"`
-	UnitAmountDecimal float64                             `json:"unit_amount_decimal,string"`
-}
-
 // CreditNoteList is a list of credit notes as retrieved from a list endpoint.
 type CreditNoteList struct {
 	APIResource
@@ -194,28 +182,21 @@ type CreditNoteList struct {
 	Data []*CreditNote `json:"data"`
 }
 
-// CreditNoteLineItemList is a list of credit note line items as retrieved from a list endpoint.
-type CreditNoteLineItemList struct {
-	APIResource
-	ListMeta
-	Data []*CreditNoteLineItem `json:"data"`
-}
-
 // UnmarshalJSON handles deserialization of a CreditNote.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (i *CreditNote) UnmarshalJSON(data []byte) error {
+func (c *CreditNote) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		i.ID = id
+		c.ID = id
 		return nil
 	}
 
-	type note CreditNote
-	var v note
+	type creditNote CreditNote
+	var v creditNote
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = CreditNote(v)
+	*c = CreditNote(v)
 	return nil
 }

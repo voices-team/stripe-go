@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -13,30 +19,6 @@ const (
 	IssuingAuthorizationAuthorizationMethodKeyedIn     IssuingAuthorizationAuthorizationMethod = "keyed_in"
 	IssuingAuthorizationAuthorizationMethodOnline      IssuingAuthorizationAuthorizationMethod = "online"
 	IssuingAuthorizationAuthorizationMethodSwipe       IssuingAuthorizationAuthorizationMethod = "swipe"
-)
-
-// IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity is the list of possible values
-// for the entity that owns the authorization control.
-type IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity string
-
-// List of values that IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity can take.
-const (
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntityAccount    IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity = "account"
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntityCard       IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity = "card"
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntityCardholder IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity = "cardholder"
-)
-
-// IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName is the list of possible values
-// for the name associated with the authorization control.
-type IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName string
-
-// List of values that IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName can take.
-const (
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlNameAllowedCategories IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName = "allowed_categories"
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlNameBlockedCategories IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName = "blocked_categories"
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlNameMaxAmount         IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName = "max_amount"
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlNameMaxApprovals      IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName = "max_approvals"
-	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlNameSpendingLimits    IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName = "spending_limits"
 )
 
 // IssuingAuthorizationRequestHistoryReason is the list of possible values for the request history
@@ -70,25 +52,44 @@ const (
 	IssuingAuthorizationStatusReversed IssuingAuthorizationStatus = "reversed"
 )
 
-// IssuingAuthorizationVerificationDataCheck is the list of possible values for result of a check
-// for verification data on an issuing authorization.
-type IssuingAuthorizationVerificationDataCheck string
+// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
+type IssuingAuthorizationVerificationDataAddressLine1Check string
 
-// List of values that IssuingAuthorizationVerificationDataCheck can take.
+// List of values that IssuingAuthorizationVerificationDataAddressLine1Check can take
 const (
-	IssuingAuthorizationVerificationDataCheckMatch       IssuingAuthorizationVerificationDataCheck = "match"
-	IssuingAuthorizationVerificationDataCheckMismatch    IssuingAuthorizationVerificationDataCheck = "mismatch"
-	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
+	IssuingAuthorizationVerificationDataAddressLine1CheckMatch       IssuingAuthorizationVerificationDataAddressLine1Check = "match"
+	IssuingAuthorizationVerificationDataAddressLine1CheckMismatch    IssuingAuthorizationVerificationDataAddressLine1Check = "mismatch"
+	IssuingAuthorizationVerificationDataAddressLine1CheckNotProvided IssuingAuthorizationVerificationDataAddressLine1Check = "not_provided"
 )
 
-// IssuingAuthorizationWalletType is the list of possible values for the authorization's wallet provider.
-type IssuingAuthorizationWalletType string
+// Whether the cardholder provided a postal code and if it matched the cardholder's `billing.address.postal_code`.
+type IssuingAuthorizationVerificationDataAddressPostalCodeCheck string
 
-// List of values that IssuingAuthorizationWalletType can take.
+// List of values that IssuingAuthorizationVerificationDataAddressPostalCodeCheck can take
 const (
-	IssuingAuthorizationWalletTypeApplePay   IssuingAuthorizationWalletType = "apple_pay"
-	IssuingAuthorizationWalletTypeGooglePay  IssuingAuthorizationWalletType = "google_pay"
-	IssuingAuthorizationWalletTypeSamsungPay IssuingAuthorizationWalletType = "samsung_pay"
+	IssuingAuthorizationVerificationDataAddressPostalCodeCheckMatch       IssuingAuthorizationVerificationDataAddressPostalCodeCheck = "match"
+	IssuingAuthorizationVerificationDataAddressPostalCodeCheckMismatch    IssuingAuthorizationVerificationDataAddressPostalCodeCheck = "mismatch"
+	IssuingAuthorizationVerificationDataAddressPostalCodeCheckNotProvided IssuingAuthorizationVerificationDataAddressPostalCodeCheck = "not_provided"
+)
+
+// Whether the cardholder provided a CVC and if it matched Stripe's record.
+type IssuingAuthorizationVerificationDataCVCCheck string
+
+// List of values that IssuingAuthorizationVerificationDataCVCCheck can take
+const (
+	IssuingAuthorizationVerificationDataCVCCheckMatch       IssuingAuthorizationVerificationDataCVCCheck = "match"
+	IssuingAuthorizationVerificationDataCVCCheckMismatch    IssuingAuthorizationVerificationDataCVCCheck = "mismatch"
+	IssuingAuthorizationVerificationDataCVCCheckNotProvided IssuingAuthorizationVerificationDataCVCCheck = "not_provided"
+)
+
+// Whether the cardholder provided an expiry date and if it matched Stripe's record.
+type IssuingAuthorizationVerificationDataExpiryCheck string
+
+// List of values that IssuingAuthorizationVerificationDataExpiryCheck can take
+const (
+	IssuingAuthorizationVerificationDataExpiryCheckMatch       IssuingAuthorizationVerificationDataExpiryCheck = "match"
+	IssuingAuthorizationVerificationDataExpiryCheckMismatch    IssuingAuthorizationVerificationDataExpiryCheck = "mismatch"
+	IssuingAuthorizationVerificationDataExpiryCheckNotProvided IssuingAuthorizationVerificationDataExpiryCheck = "not_provided"
 )
 
 // IssuingAuthorizationParams is the set of parameters that can be used when updating an issuing authorization.
@@ -134,34 +135,44 @@ type IssuingAuthorizationMerchantData struct {
 	State        string `json:"state"`
 }
 
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+type IssuingAuthorizationPendingRequestAmountDetails struct {
+	ATMFee int64 `json:"atm_fee"`
+}
+
 // IssuingAuthorizationPendingRequest is the resource representing details about the pending authorization request.
 type IssuingAuthorizationPendingRequest struct {
-	Amount               int64                              `json:"amount"`
-	AmountDetails        *IssuingAuthorizationAmountDetails `json:"amount_details"`
-	Currency             Currency                           `json:"currency"`
-	IsAmountControllable bool                               `json:"is_amount_controllable"`
-	MerchantAmount       int64                              `json:"merchant_amount"`
-	MerchantCurrency     Currency                           `json:"merchant_currency"`
+	Amount               int64                                            `json:"amount"`
+	AmountDetails        *IssuingAuthorizationPendingRequestAmountDetails `json:"amount_details"`
+	Currency             Currency                                         `json:"currency"`
+	IsAmountControllable bool                                             `json:"is_amount_controllable"`
+	MerchantAmount       int64                                            `json:"merchant_amount"`
+	MerchantCurrency     Currency                                         `json:"merchant_currency"`
+}
+
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+type IssuingAuthorizationRequestHistoryAmountDetails struct {
+	ATMFee int64 `json:"atm_fee"`
 }
 
 // IssuingAuthorizationRequestHistory is the resource representing a request history on an issuing authorization.
 type IssuingAuthorizationRequestHistory struct {
-	Amount           int64                                    `json:"amount"`
-	AmountDetails    *IssuingAuthorizationAmountDetails       `json:"amount_details"`
-	Approved         bool                                     `json:"approved"`
-	Created          int64                                    `json:"created"`
-	Currency         Currency                                 `json:"currency"`
-	MerchantAmount   int64                                    `json:"merchant_amount"`
-	MerchantCurrency Currency                                 `json:"merchant_currency"`
-	Reason           IssuingAuthorizationRequestHistoryReason `json:"reason"`
+	Amount           int64                                            `json:"amount"`
+	AmountDetails    *IssuingAuthorizationRequestHistoryAmountDetails `json:"amount_details"`
+	Approved         bool                                             `json:"approved"`
+	Created          int64                                            `json:"created"`
+	Currency         Currency                                         `json:"currency"`
+	MerchantAmount   int64                                            `json:"merchant_amount"`
+	MerchantCurrency Currency                                         `json:"merchant_currency"`
+	Reason           IssuingAuthorizationRequestHistoryReason         `json:"reason"`
 }
 
 // IssuingAuthorizationVerificationData is the resource representing verification data on an issuing authorization.
 type IssuingAuthorizationVerificationData struct {
-	AddressLine1Check      IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
-	AddressPostalCodeCheck IssuingAuthorizationVerificationDataCheck `json:"address_postal_code_check"`
-	CVCCheck               IssuingAuthorizationVerificationDataCheck `json:"cvc_check"`
-	ExpiryCheck            IssuingAuthorizationVerificationDataCheck `json:"expiry_check"`
+	AddressLine1Check      IssuingAuthorizationVerificationDataAddressLine1Check      `json:"address_line1_check"`
+	AddressPostalCodeCheck IssuingAuthorizationVerificationDataAddressPostalCodeCheck `json:"address_postal_code_check"`
+	CVCCheck               IssuingAuthorizationVerificationDataCVCCheck               `json:"cvc_check"`
+	ExpiryCheck            IssuingAuthorizationVerificationDataExpiryCheck            `json:"expiry_check"`
 }
 
 // IssuingAuthorization is the resource representing a Stripe issuing authorization.
@@ -188,7 +199,7 @@ type IssuingAuthorization struct {
 	Status              IssuingAuthorizationStatus              `json:"status"`
 	Transactions        []*IssuingTransaction                   `json:"transactions"`
 	VerificationData    *IssuingAuthorizationVerificationData   `json:"verification_data"`
-	Wallet              IssuingAuthorizationWalletType          `json:"wallet"`
+	Wallet              string                                  `json:"wallet"`
 }
 
 // IssuingAuthorizationList is a list of issuing authorizations as retrieved from a list endpoint.
