@@ -91,6 +91,25 @@ const (
 	InvoiceCustomerTaxIDTypeZAVAT    InvoiceCustomerTaxIDType = "za_vat"
 )
 
+// Transaction type of the mandate.
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
+	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
+)
+
+// Bank account verification method.
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
+	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodInstant       InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
+	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
+)
+
 // Preferred language of the Bancontact authorization page that the customer is redirected to.
 type InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage string
 
@@ -119,6 +138,7 @@ type InvoicePaymentSettingsPaymentMethodType string
 const (
 	InvoicePaymentSettingsPaymentMethodTypeAchCreditTransfer  InvoicePaymentSettingsPaymentMethodType = "ach_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeAchDebit           InvoicePaymentSettingsPaymentMethodType = "ach_debit"
+	InvoicePaymentSettingsPaymentMethodTypeACSSDebit          InvoicePaymentSettingsPaymentMethodType = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        InvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
@@ -251,6 +271,17 @@ type InvoiceDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
+// Additional fields for Mandate creation
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	TransactionType *string `form:"transaction_type"`
+}
+
+// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
+	MandateOptions     *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	VerificationMethod *string                                                                  `form:"verification_method"`
+}
+
 // InvoicePaymentSettingsPaymentMethodOptionsBancontactParams is the set of parameters allowed for
 // bancontact on payment_method_options on payment_settings on an invoice.
 type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
@@ -266,6 +297,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 // InvoicePaymentSettingsPaymentMethodOptionsParams is the set of parameters allowed for
 // specific payment methods on an invoice's payment settings.
 type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
+	ACSSDebit  *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams  `form:"acss_debit"`
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *InvoicePaymentSettingsPaymentMethodOptionsCardParams       `form:"card"`
 }
@@ -553,6 +585,15 @@ type InvoiceTransferData struct {
 	Amount      int64    `json:"amount"`
 	Destination *Account `json:"destination"`
 }
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
+	TransactionType InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
+}
+
+// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebit struct {
+	MandateOptions     *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
+	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
+}
 
 // InvoicePaymentSettingsPaymentMethodOptionsBancontact contains details about the Bancontact
 // payment method options to pass to the invoice's PaymentIntent.
@@ -568,6 +609,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
 
 // InvoicePaymentSettingsPaymentMethodOptions represents payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptions struct {
+	ACSSDebit  *InvoicePaymentSettingsPaymentMethodOptionsACSSDebit  `json:"acss_debit"`
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	Card       *InvoicePaymentSettingsPaymentMethodOptionsCard       `json:"card"`
 }
