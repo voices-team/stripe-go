@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // The status of the most recent automated tax calculation for this session.
 type CheckoutSessionAutomaticTaxStatus string
 
@@ -283,13 +281,10 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 
 // The recurring components of a price such as `interval` and `usage_type`.
 type CheckoutSessionLineItemPriceDataRecurringParams struct {
-	AggregateUsage *string `form:"aggregate_usage"`
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-	IntervalCount   *int64  `form:"interval_count"`
-	TrialPeriodDays *int64  `form:"trial_period_days"`
-	UsageType       *string `form:"usage_type"`
+	IntervalCount *int64 `form:"interval_count"`
 }
 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -451,7 +446,7 @@ type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 }
 
 // contains details about the Wechat Pay payment method options.
-type CheckoutSessionPaymentMethodOptionsWechatPayParams struct {
+type CheckoutSessionPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id"`
 	// The client type that the end customer will pay from
@@ -467,7 +462,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	// contains details about the OXXO payment method options.
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// contains details about the Wechat Pay payment method options.
-	WechatPay *CheckoutSessionPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
+	WeChatPay *CheckoutSessionPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
 }
 
 // Controls phone number collection settings for the session.
@@ -860,8 +855,7 @@ type CheckoutSessionTotalDetailsBreakdownTax struct {
 	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
-	Rate    *TaxRate `json:"rate"`
-	TaxRate *TaxRate `json:"tax_rate"` // Do not use: use `Rate`
+	Rate *TaxRate `json:"rate"`
 }
 type CheckoutSessionTotalDetailsBreakdown struct {
 	// The aggregated line item discounts.
@@ -936,7 +930,6 @@ type CheckoutSession struct {
 	// on file. To access information about the customer once the payment flow is
 	// complete, use the `customer` attribute.
 	CustomerEmail string `json:"customer_email"`
-	Deleted       bool   `json:"deleted"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object. Used to pass to `redirectToCheckout`
@@ -996,25 +989,6 @@ type CheckoutSession struct {
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
 	// The URL to the Checkout Session.
 	URL string `json:"url"`
-}
-
-// UnmarshalJSON handles deserialization of a CheckoutSession.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (c *CheckoutSession) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		c.ID = id
-		return nil
-	}
-
-	type checkoutSession CheckoutSession
-	var v checkoutSession
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*c = CheckoutSession(v)
-	return nil
 }
 
 // CheckoutSessionList is a list of Sessions as retrieved from a list endpoint.

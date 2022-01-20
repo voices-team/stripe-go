@@ -22,34 +22,6 @@ const (
 	AccountBusinessTypeNonProfit        AccountBusinessType = "non_profit"
 )
 
-// AccountCapability maps to a given capability for an account.
-type AccountCapability string
-
-// List of values that AccountCapability can take.
-const (
-	AccountCapabilityAUBECSDebitPayments     AccountCapability = "au_becs_debit_payments"
-	AccountCapabilityBACSDebitPayments       AccountCapability = "bacs_debit_payments"
-	AccountCapabilityBancontactPayments      AccountCapability = "bancontact_payments"
-	AccountCapabilityCardIssuing             AccountCapability = "card_issuing"
-	AccountCapabilityCardPayments            AccountCapability = "card_payments"
-	AccountCapabilityCartesBancairesPayments AccountCapability = "cartes_bancaires_payments"
-	AccountCapabilityEPSPayments             AccountCapability = "eps_payments"
-	AccountCapabilityFPXPayments             AccountCapability = "fpx_payments"
-	AccountCapabilityGiropayPayments         AccountCapability = "giropay_payments"
-	AccountCapabilityGrabpayPayments         AccountCapability = "grabpay_payments"
-	AccountCapabilityIdealPayments           AccountCapability = "ideal_payments"
-	AccountCapabilityJCBPayments             AccountCapability = "jcb_payments"
-	AccountCapabilityKlarnaPayments          AccountCapability = "klarna_payments"
-	AccountCapabilityLegacyPayments          AccountCapability = "legacy_payments"
-	AccountCapabilityOXXOPayments            AccountCapability = "oxxo_payments"
-	AccountCapabilityP24Payments             AccountCapability = "p24_payments"
-	AccountCapabilitySEPADebitPayments       AccountCapability = "sepa_debit_payments"
-	AccountCapabilitySofortPayments          AccountCapability = "sofort_payments"
-	AccountCapabilityTaxReportingUS1099K     AccountCapability = "tax_reporting_us_1099_k"
-	AccountCapabilityTaxReportingUS1099MISC  AccountCapability = "tax_reporting_us_1099_misc"
-	AccountCapabilityTransfers               AccountCapability = "transfers"
-)
-
 // The status of the Canadian pre-authorized debits payments capability of the account, or whether the account can directly process Canadian pre-authorized debits charges.
 type AccountCapabilityStatus string
 
@@ -58,6 +30,26 @@ const (
 	AccountCapabilityStatusActive   AccountCapabilityStatus = "active"
 	AccountCapabilityStatusInactive AccountCapabilityStatus = "inactive"
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
+)
+
+// The status of the iDEAL payments capability of the account, or whether the account can directly process iDEAL charges.
+type AccountCapabilitiesIDEALPayments string
+
+// List of values that AccountCapabilitiesIDEALPayments can take
+const (
+	AccountCapabilitiesIDEALPaymentsActive   AccountCapabilitiesIDEALPayments = "active"
+	AccountCapabilitiesIDEALPaymentsInactive AccountCapabilitiesIDEALPayments = "inactive"
+	AccountCapabilitiesIDEALPaymentsPending  AccountCapabilitiesIDEALPayments = "pending"
+)
+
+// The status of the tax reporting 1099-MISC (US) capability of the account.
+type AccountCapabilitiesTaxReportingUS1099MISC string
+
+// List of values that AccountCapabilitiesTaxReportingUS1099MISC can take
+const (
+	AccountCapabilitiesTaxReportingUS1099MISCActive   AccountCapabilitiesTaxReportingUS1099MISC = "active"
+	AccountCapabilitiesTaxReportingUS1099MISCInactive AccountCapabilitiesTaxReportingUS1099MISC = "inactive"
+	AccountCapabilitiesTaxReportingUS1099MISCPending  AccountCapabilitiesTaxReportingUS1099MISC = "pending"
 )
 
 // The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
@@ -87,33 +79,6 @@ const (
 	AccountCompanyStructureUnincorporatedNonProfit            AccountCompanyStructure = "unincorporated_non_profit"
 )
 
-// AccountRejectReason describes the valid reason to reject an account
-type AccountRejectReason string
-
-// List of values that AccountRejectReason can take.
-const (
-	AccountRejectReasonFraud          AccountRejectReason = "fraud"
-	AccountRejectReasonOther          AccountRejectReason = "other"
-	AccountRejectReasonTermsOfService AccountRejectReason = "terms_of_service"
-)
-
-// One of `document_corrupt`, `document_expired`, `document_failed_copy`, `document_failed_greyscale`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_not_readable`, `document_not_uploaded`, `document_type_not_supported`, or `document_too_large`. A machine-readable code specifying the verification state for this document.
-type AccountCompanyVerificationDocumentDetailsCode string
-
-// List of values that AccountCompanyVerificationDocumentDetailsCode can take
-const (
-	AccountCompanyVerificationDocumentDetailsCodeDocumentCorrupt        AccountCompanyVerificationDocumentDetailsCode = "document_corrupt"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedCopy     AccountCompanyVerificationDocumentDetailsCode = "document_failed_copy"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedOther    AccountCompanyVerificationDocumentDetailsCode = "document_failed_other"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedTestMode AccountCompanyVerificationDocumentDetailsCode = "document_failed_test_mode"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFraudulent     AccountCompanyVerificationDocumentDetailsCode = "document_fraudulent"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentInvalid        AccountCompanyVerificationDocumentDetailsCode = "document_invalid"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentManipulated    AccountCompanyVerificationDocumentDetailsCode = "document_manipulated"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentNotReadable    AccountCompanyVerificationDocumentDetailsCode = "document_not_readable"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentNotUploaded    AccountCompanyVerificationDocumentDetailsCode = "document_not_uploaded"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge       AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
-)
-
 // The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.
 type AccountControllerType string
 
@@ -129,41 +94,6 @@ type ExternalAccountType string
 const (
 	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
 	ExternalAccountTypeCard        ExternalAccountType = "card"
-)
-
-// If the account is disabled, this string describes why. Can be `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.listed`, `rejected.terms_of_service`, `rejected.other`, `under_review`, or `other`.
-type AccountRequirementsDisabledReason string
-
-// List of values that AccountRequirementsDisabledReason can take
-const (
-	AccountRequirementsDisabledReasonFieldsNeeded           AccountRequirementsDisabledReason = "fields_needed"
-	AccountRequirementsDisabledReasonListed                 AccountRequirementsDisabledReason = "listed"
-	AccountRequirementsDisabledReasonOther                  AccountRequirementsDisabledReason = "other"
-	AccountRequirementsDisabledReasonRejectedFraud          AccountRequirementsDisabledReason = "rejected.fraud"
-	AccountRequirementsDisabledReasonRejectedListed         AccountRequirementsDisabledReason = "rejected.listed"
-	AccountRequirementsDisabledReasonRejectedOther          AccountRequirementsDisabledReason = "rejected.other"
-	AccountRequirementsDisabledReasonRejectedTermsOfService AccountRequirementsDisabledReason = "rejected.terms_of_service"
-	AccountRequirementsDisabledReasonUnderReview            AccountRequirementsDisabledReason = "under_review"
-)
-
-// How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
-type PayoutInterval string
-
-// List of values that PayoutInterval can take
-const (
-	PayoutIntervalDaily   PayoutInterval = "daily"
-	PayoutIntervalManual  PayoutInterval = "manual"
-	PayoutIntervalMonthly PayoutInterval = "monthly"
-	PayoutIntervalWeekly  PayoutInterval = "weekly"
-)
-
-// The user's service agreement type
-type AccountTOSAcceptanceServiceAgreement string
-
-// List of values that AccountTOSAcceptanceServiceAgreement can take
-const (
-	AccountTOSAcceptanceServiceAgreementFull      AccountTOSAcceptanceServiceAgreement = "full"
-	AccountTOSAcceptanceServiceAgreementRecipient AccountTOSAcceptanceServiceAgreement = "recipient"
 )
 
 // The Stripe account type. Can be `standard`, `express`, or `custom`.
@@ -209,8 +139,6 @@ type AccountParams struct {
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
 	Type *string `form:"type"`
-	// This parameter is deprecated. Prefer using Capabilities instead.
-	RequestedCapabilities []*string `form:"requested_capabilities"`
 }
 
 // Business information about the account.
@@ -252,7 +180,7 @@ type AccountCapabilitiesAUBECSDebitPaymentsParams struct {
 }
 
 // The bacs_debit_payments capability.
-type AccountCapabilitiesBACSDebitPaymentsParams struct {
+type AccountCapabilitiesBacsDebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -312,7 +240,7 @@ type AccountCapabilitiesGrabpayPaymentsParams struct {
 }
 
 // The ideal_payments capability.
-type AccountCapabilitiesIdealPaymentsParams struct {
+type AccountCapabilitiesIDEALPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -386,7 +314,7 @@ type AccountCapabilitiesParams struct {
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments"`
 	// The bacs_debit_payments capability.
-	BACSDebitPayments *AccountCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	BacsDebitPayments *AccountCapabilitiesBacsDebitPaymentsParams `form:"bacs_debit_payments"`
 	// The bancontact_payments capability.
 	BancontactPayments *AccountCapabilitiesBancontactPaymentsParams `form:"bancontact_payments"`
 	// The boleto_payments capability.
@@ -406,7 +334,7 @@ type AccountCapabilitiesParams struct {
 	// The grabpay_payments capability.
 	GrabpayPayments *AccountCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
 	// The ideal_payments capability.
-	IdealPayments *AccountCapabilitiesIdealPaymentsParams `form:"ideal_payments"`
+	IDEALPayments *AccountCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
 	// The jcb_payments capability.
 	JCBPayments *AccountCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
 	// The klarna_payments capability.
@@ -443,8 +371,6 @@ type AccountAddressParams struct {
 	PostalCode *string `form:"postal_code"`
 	// Prefecture.
 	State *string `form:"state"`
-	// Town/cho-me. Note that this is only used for Kana/Kanji representations
-	// of an address.
 	// Town or cho-me.
 	Town *string `form:"town"`
 }
@@ -476,7 +402,7 @@ type AccountCompanyVerificationParams struct {
 // Information about the company or business. This field is available for any `business_type`.
 type AccountCompanyParams struct {
 	// The company's primary address.
-	Address *AccountAddressParams `form:"address"`
+	Address *AddressParams `form:"address"`
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountAddressParams `form:"address_kana"`
 	// The Kanji variation of the company's primary address (Japan only).
@@ -562,7 +488,7 @@ type AccountDocumentsParams struct {
 	// One or more documents that demonstrate proof of a company's license to operate.
 	CompanyLicense *AccountDocumentsCompanyLicenseParams `form:"company_license"`
 	// One or more documents showing the company's Memorandum of Association.
-	CompanyMemorandumOfAssocation *AccountDocumentsCompanyMemorandumOfAssociationParams `form:"company_memorandum_of_association"`
+	CompanyMemorandumOfAssociation *AccountDocumentsCompanyMemorandumOfAssociationParams `form:"company_memorandum_of_association"`
 	// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 	CompanyMinisterialDecree *AccountDocumentsCompanyMinisterialDecreeParams `form:"company_ministerial_decree"`
 	// One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
@@ -571,12 +497,6 @@ type AccountDocumentsParams struct {
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
-}
-
-// AccountSettingsBACSDebitPaymentsParams represent allowed parameters to configure settings specific to
-// BACS Debit charging on the account.
-type AccountSettingsBACSDebitPaymentsParams struct {
-	DisplayName *string `form:"display_name"`
 }
 
 // Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
@@ -625,13 +545,6 @@ type AccountSettingsCardPaymentsParams struct {
 	StatementDescriptorPrefix *string `form:"statement_descriptor_prefix"`
 }
 
-// AccountSettingsDashboardParams represent allowed parameters to configure settings for the
-// account's Dashboard.
-type AccountSettingsDashboardParams struct {
-	DisplayName *string `form:"display_name"`
-	Timezone    *string `form:"timezone"`
-}
-
 // Settings that apply across payment methods for charging on the account.
 type AccountSettingsPaymentsParams struct {
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.
@@ -674,14 +587,12 @@ type AccountSettingsPayoutsParams struct {
 
 // Options for customizing how the account functions within Stripe.
 type AccountSettingsParams struct {
-	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 	Branding *AccountSettingsBrandingParams `form:"branding"`
 	// Settings specific to the account's use of the Card Issuing product.
 	CardIssuing *AccountSettingsCardIssuingParams `form:"card_issuing"`
 	// Settings specific to card charging on the account.
 	CardPayments *AccountSettingsCardPaymentsParams `form:"card_payments"`
-	Dashboard    *AccountSettingsDashboardParams    `form:"dashboard"`
 	// Settings that apply across payment methods for charging on the account.
 	Payments *AccountSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
@@ -756,7 +667,7 @@ type AccountCapabilities struct {
 	// The status of the BECS Direct Debit (AU) payments capability of the account, or whether the account can directly process BECS Direct Debit (AU) charges.
 	AUBECSDebitPayments AccountCapabilityStatus `json:"au_becs_debit_payments"`
 	// The status of the Bacs Direct Debits payments capability of the account, or whether the account can directly process Bacs Direct Debits charges.
-	BACSDebitPayments AccountCapabilityStatus `json:"bacs_debit_payments"`
+	BacsDebitPayments AccountCapabilityStatus `json:"bacs_debit_payments"`
 	// The status of the Bancontact payments capability of the account, or whether the account can directly process Bancontact charges.
 	BancontactPayments AccountCapabilityStatus `json:"bancontact_payments"`
 	// The status of the boleto payments capability of the account, or whether the account can directly process boleto charges.
@@ -776,7 +687,7 @@ type AccountCapabilities struct {
 	// The status of the GrabPay payments capability of the account, or whether the account can directly process GrabPay charges.
 	GrabpayPayments AccountCapabilityStatus `json:"grabpay_payments"`
 	// The status of the iDEAL payments capability of the account, or whether the account can directly process iDEAL charges.
-	IdealPayments AccountCapabilityStatus `json:"ideal_payments"`
+	IDEALPayments AccountCapabilitiesIDEALPayments `json:"ideal_payments"`
 	// The status of the JCB payments capability of the account, or whether the account (Japan only) can directly process JCB credit card charges in JPY currency.
 	JCBPayments AccountCapabilityStatus `json:"jcb_payments"`
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.
@@ -794,7 +705,7 @@ type AccountCapabilities struct {
 	// The status of the tax reporting 1099-K (US) capability of the account.
 	TaxReportingUS1099K AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
 	// The status of the tax reporting 1099-MISC (US) capability of the account.
-	TaxReportingUS1099MISC AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
+	TaxReportingUS1099MISC AccountCapabilitiesTaxReportingUS1099MISC `json:"tax_reporting_us_1099_misc"`
 	// The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
 	Transfers AccountCapabilityStatus `json:"transfers"`
 }
@@ -813,8 +724,6 @@ type AccountAddress struct {
 	PostalCode string `json:"postal_code"`
 	// Prefecture.
 	State string `json:"state"`
-	// Town/cho-me. Note that this is only used for Kana/Kanji representations
-	// of an address.
 	// Town/cho-me.
 	Town string `json:"town"`
 }
@@ -834,7 +743,7 @@ type AccountCompanyVerificationDocument struct {
 	// A user-displayable string describing the verification state of this document.
 	Details string `json:"details"`
 	// One of `document_corrupt`, `document_expired`, `document_failed_copy`, `document_failed_greyscale`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_not_readable`, `document_not_uploaded`, `document_type_not_supported`, or `document_too_large`. A machine-readable code specifying the verification state for this document.
-	DetailsCode AccountCompanyVerificationDocumentDetailsCode `json:"details_code"`
+	DetailsCode string `json:"details_code"`
 	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`.
 	Front *File `json:"front"`
 }
@@ -844,7 +753,7 @@ type AccountCompanyVerification struct {
 	Document *AccountCompanyVerificationDocument `json:"document"`
 }
 type AccountCompany struct {
-	Address *AccountAddress `json:"address"`
+	Address *Address `json:"address"`
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountAddress `json:"address_kana"`
 	// The Kanji variation of the company's primary address (Japan only).
@@ -864,8 +773,7 @@ type AccountCompany struct {
 	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone              string `json:"phone"`
-	RegistrationNumber string `json:"registration_number"`
+	Phone string `json:"phone"`
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 	Structure AccountCompanyStructure `json:"structure"`
 	// Whether the company's business ID number was provided.
@@ -945,7 +853,7 @@ type AccountRequirements struct {
 	// Fields that need to be collected to keep the account enabled. If not collected by `current_deadline`, these fields appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
 	// If the account is disabled, this string describes why. Can be `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.listed`, `rejected.terms_of_service`, `rejected.other`, `under_review`, or `other`.
-	DisabledReason AccountRequirementsDisabledReason `json:"disabled_reason"`
+	DisabledReason string `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well, and `current_deadline` becomes set.
@@ -955,7 +863,7 @@ type AccountRequirements struct {
 	// Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due`, `currently_due`, or `past_due`.
 	PendingVerification []string `json:"pending_verification"`
 }
-type AccountSettingsBACSDebitPayments struct {
+type AccountSettingsBacsDebitPayments struct {
 	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this will appear on the mandate, and as the statement descriptor.
 	DisplayName string `json:"display_name"`
 }
@@ -975,7 +883,7 @@ type AccountTOSAcceptance struct {
 	// The IP address from which the account representative accepted their service agreement
 	IP string `json:"ip"`
 	// The user's service agreement type
-	ServiceAgreement AccountTOSAcceptanceServiceAgreement `json:"service_agreement"`
+	ServiceAgreement string `json:"service_agreement"`
 	// The user agent of the browser from which the account representative accepted their service agreement
 	UserAgent string `json:"user_agent"`
 }
@@ -1011,7 +919,7 @@ type AccountPayoutSchedule struct {
 	// The number of days charges for the account will be held before being paid out.
 	DelayDays int64 `json:"delay_days"`
 	// How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
-	Interval PayoutInterval `json:"interval"`
+	Interval string `json:"interval"`
 	// The day of the month funds will be paid out. Only shown if `interval` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
 	MonthlyAnchor int64 `json:"monthly_anchor"`
 	// The day of the week funds will be paid out, of the style 'monday', 'tuesday', etc. Only shown if `interval` is weekly.
@@ -1031,7 +939,7 @@ type AccountSettingsSEPADebitPayments struct {
 
 // Options for customizing how the account functions within Stripe.
 type AccountSettings struct {
-	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
+	BacsDebitPayments *AccountSettingsBacsDebitPayments `json:"bacs_debit_payments"`
 	Branding          *AccountSettingsBranding          `json:"branding"`
 	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
 	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`

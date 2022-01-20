@@ -8,37 +8,6 @@ package stripe
 
 import "encoding/json"
 
-// Card brand. Can be `amex`, `diners`, `discover`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
-type PaymentMethodCardBrand string
-
-// List of values that PaymentMethodCardBrand can take
-const (
-	PaymentMethodCardBrandAmex       PaymentMethodCardBrand = "amex"
-	PaymentMethodCardBrandDiners     PaymentMethodCardBrand = "diners"
-	PaymentMethodCardBrandDiscover   PaymentMethodCardBrand = "discover"
-	PaymentMethodCardBrandJCB        PaymentMethodCardBrand = "jcb"
-	PaymentMethodCardBrandMastercard PaymentMethodCardBrand = "mastercard"
-	PaymentMethodCardBrandUnionpay   PaymentMethodCardBrand = "unionpay"
-	PaymentMethodCardBrandUnknown    PaymentMethodCardBrand = "unknown"
-	PaymentMethodCardBrandVisa       PaymentMethodCardBrand = "visa"
-)
-
-// All available networks for the card.
-type PaymentMethodCardNetwork string
-
-// List of values that PaymentMethodCardNetwork can take
-const (
-	PaymentMethodCardNetworkAmex       PaymentMethodCardNetwork = "amex"
-	PaymentMethodCardNetworkDiners     PaymentMethodCardNetwork = "diners"
-	PaymentMethodCardNetworkDiscover   PaymentMethodCardNetwork = "discover"
-	PaymentMethodCardNetworkInterac    PaymentMethodCardNetwork = "interac"
-	PaymentMethodCardNetworkJCB        PaymentMethodCardNetwork = "jcb"
-	PaymentMethodCardNetworkMastercard PaymentMethodCardNetwork = "mastercard"
-	PaymentMethodCardNetworkUnionpay   PaymentMethodCardNetwork = "unionpay"
-	PaymentMethodCardNetworkUnknown    PaymentMethodCardNetwork = "unknown"
-	PaymentMethodCardNetworkVisa       PaymentMethodCardNetwork = "visa"
-)
-
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, or `visa_checkout`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type PaymentMethodCardWalletType string
 
@@ -70,7 +39,7 @@ const (
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
-	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
+	PaymentMethodTypeBacsDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
@@ -79,14 +48,14 @@ const (
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
 	PaymentMethodTypeGiropay          PaymentMethodType = "giropay"
 	PaymentMethodTypeGrabpay          PaymentMethodType = "grabpay"
-	PaymentMethodTypeIdeal            PaymentMethodType = "ideal"
+	PaymentMethodTypeIDEAL            PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
 	PaymentMethodTypeKlarna           PaymentMethodType = "klarna"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
-	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
+	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
-	PaymentMethodTypeWechatPay        PaymentMethodType = "wechat_pay"
+	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 )
 
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -114,7 +83,7 @@ type PaymentMethodAUBECSDebitParams struct {
 }
 
 // If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
-type PaymentMethodBACSDebitParams struct {
+type PaymentMethodBacsDebitParams struct {
 	// Account number of the bank account that the funds will be debited from.
 	AccountNumber *string `form:"account_number"`
 	// Sort code of the bank account. (e.g., `10-20-30`)
@@ -147,9 +116,9 @@ type PaymentMethodCardParams struct {
 	// The card's CVC. It is highly recommended to always include this value.
 	CVC *string `form:"cvc"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
+	ExpMonth *int64 `form:"exp_month"`
 	// Four-digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
+	ExpYear *int64 `form:"exp_year"`
 	// The card number, as a string without any separators.
 	Number *string `form:"number"`
 	Token  *string `form:"token"`
@@ -176,7 +145,7 @@ type PaymentMethodGiropayParams struct{}
 type PaymentMethodGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-type PaymentMethodIdealParams struct {
+type PaymentMethodIDEALParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
@@ -206,14 +175,13 @@ type PaymentMethodOXXOParams struct{}
 // If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 type PaymentMethodP24Params struct {
 	// The customer's bank.
-	Bank                *string `form:"bank"`
-	TOSShownAndAccepted *bool   `form:"tos_shown_and_accepted"`
+	Bank *string `form:"bank"`
 }
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
-type PaymentMethodSepaDebitParams struct {
+type PaymentMethodSEPADebitParams struct {
 	// IBAN of the bank account.
-	Iban *string `form:"iban"`
+	IBAN *string `form:"iban"`
 }
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -223,7 +191,7 @@ type PaymentMethodSofortParams struct {
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-type PaymentMethodWechatPayParams struct{}
+type PaymentMethodWeChatPayParams struct{}
 
 // Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
 //
@@ -239,7 +207,7 @@ type PaymentMethodParams struct {
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
-	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
+	BacsDebit *PaymentMethodBacsDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -257,7 +225,7 @@ type PaymentMethodParams struct {
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-	Ideal *PaymentMethodIdealParams `form:"ideal"`
+	IDEAL *PaymentMethodIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
@@ -267,13 +235,13 @@ type PaymentMethodParams struct {
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
-	SepaDebit *PaymentMethodSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *PaymentMethodWechatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	// The `Customer` to whom the original PaymentMethod is attached.
 	Customer *string `form:"customer"`
@@ -333,7 +301,7 @@ type PaymentMethodAUBECSDebit struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 }
-type PaymentMethodBACSDebit struct {
+type PaymentMethodBacsDebit struct {
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
@@ -360,19 +328,19 @@ type PaymentMethodBoleto struct {
 // Checks on Card address and CVC if provided.
 type PaymentMethodCardChecks struct {
 	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressLine1Check CardVerification `json:"address_line1_check"`
+	AddressLine1Check string `json:"address_line1_check"`
 	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressPostalCodeCheck CardVerification `json:"address_postal_code_check"`
+	AddressPostalCodeCheck string `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	CVCCheck CardVerification `json:"cvc_check"`
+	CVCCheck string `json:"cvc_check"`
 }
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardNetworks struct {
 	// All available networks for the card.
-	Available []PaymentMethodCardNetwork `json:"available"`
+	Available []string `json:"available"`
 	// The preferred network for the card.
-	Preferred PaymentMethodCardNetwork `json:"preferred"`
+	Preferred string `json:"preferred"`
 }
 
 // Contains details on how this Card maybe be used for 3D Secure authentication.
@@ -420,21 +388,21 @@ type PaymentMethodCardWallet struct {
 }
 type PaymentMethodCard struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
-	Brand PaymentMethodCardBrand `json:"brand"`
+	Brand string `json:"brand"`
 	// Checks on Card address and CVC if provided.
 	Checks *PaymentMethodCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth uint64 `json:"exp_month"`
+	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
-	ExpYear uint64 `json:"exp_year"`
+	ExpYear int64 `json:"exp_year"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
 	Fingerprint string `json:"fingerprint"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
-	Funding CardFunding `json:"funding"`
+	Funding string `json:"funding"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
@@ -461,12 +429,11 @@ type PaymentMethodFPX struct {
 	// Account holder type, if provided. Can be one of `individual` or `company`.
 	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
 	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, or `pb_enterprise`.
-	Bank          string `json:"bank"`
-	TransactionID string `json:"transaction_id"`
+	Bank string `json:"bank"`
 }
 type PaymentMethodGiropay struct{}
 type PaymentMethodGrabpay struct{}
-type PaymentMethodIdeal struct {
+type PaymentMethodIDEAL struct {
 	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, or `van_lanschot`.
 	Bank string `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
@@ -494,13 +461,13 @@ type PaymentMethodP24 struct {
 }
 
 // Information about the object that generated this PaymentMethod.
-type PaymentMethodSepaDebitGeneratedFrom struct {
+type PaymentMethodSEPADebitGeneratedFrom struct {
 	// The ID of the Charge that generated this PaymentMethod, if any.
 	Charge *Charge `json:"charge"`
 	// The ID of the SetupAttempt that generated this PaymentMethod, if any.
 	SetupAttempt *SetupAttempt `json:"setup_attempt"`
 }
-type PaymentMethodSepaDebit struct {
+type PaymentMethodSEPADebit struct {
 	// Bank code of bank associated with the bank account.
 	BankCode string `json:"bank_code"`
 	// Branch code of bank associated with the bank account.
@@ -510,7 +477,7 @@ type PaymentMethodSepaDebit struct {
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Information about the object that generated this PaymentMethod.
-	GeneratedFrom *PaymentMethodSepaDebitGeneratedFrom `json:"generated_from"`
+	GeneratedFrom *PaymentMethodSEPADebitGeneratedFrom `json:"generated_from"`
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
 }
@@ -518,7 +485,7 @@ type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 }
-type PaymentMethodWechatPay struct{}
+type PaymentMethodWeChatPay struct{}
 
 // PaymentMethod objects represent your customer's payment instruments.
 // They can be used with [PaymentIntents](https://stripe.com/docs/payments/payment-intents) to collect payments or saved to
@@ -531,7 +498,7 @@ type PaymentMethod struct {
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`
-	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
+	BacsDebit        *PaymentMethodBacsDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`
 	BillingDetails   *BillingDetails                `json:"billing_details"`
 	Boleto           *PaymentMethodBoleto           `json:"boleto"`
@@ -547,7 +514,7 @@ type PaymentMethod struct {
 	Grabpay  *PaymentMethodGrabpay `json:"grabpay"`
 	// Unique identifier for the object.
 	ID             string                       `json:"id"`
-	Ideal          *PaymentMethodIdeal          `json:"ideal"`
+	IDEAL          *PaymentMethodIDEAL          `json:"ideal"`
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
 	Klarna         *PaymentMethodKlarna         `json:"klarna"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -558,11 +525,11 @@ type PaymentMethod struct {
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
 	P24       *PaymentMethodP24       `json:"p24"`
-	SepaDebit *PaymentMethodSepaDebit `json:"sepa_debit"`
+	SEPADebit *PaymentMethodSEPADebit `json:"sepa_debit"`
 	Sofort    *PaymentMethodSofort    `json:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type      PaymentMethodType       `json:"type"`
-	WechatPay *PaymentMethodWechatPay `json:"wechat_pay"`
+	WeChatPay *PaymentMethodWeChatPay `json:"wechat_pay"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.

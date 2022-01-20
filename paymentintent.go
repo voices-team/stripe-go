@@ -39,25 +39,6 @@ const (
 	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
 )
 
-// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
-type PaymentIntentNextActionType string
-
-// List of values that PaymentIntentNextActionType can take
-const (
-	PaymentIntentNextActionTypeAlipayHandleRedirect PaymentIntentNextActionType = "alipay_handle_redirect"
-	PaymentIntentNextActionTypeOXXODisplayDetails   PaymentIntentNextActionType = "oxxo_display_details"
-	PaymentIntentNextActionTypeRedirectToURL        PaymentIntentNextActionType = "redirect_to_url"
-)
-
-// PaymentIntentOffSession is the list of allowed values for types of off-session.
-type PaymentIntentOffSession string
-
-// List of values that PaymentIntentOffSession can take.
-const (
-	PaymentIntentOffSessionOneOff    PaymentIntentOffSession = "one_off"
-	PaymentIntentOffSessionRecurring PaymentIntentOffSession = "recurring"
-)
-
 // Payment schedule for the mandate.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
@@ -104,6 +85,23 @@ const (
 	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
 )
 
+// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
+type PaymentIntentPaymentMethodOptionsCardNetwork string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardNetwork can take
+const (
+	PaymentIntentPaymentMethodOptionsCardNetworkAmex            PaymentIntentPaymentMethodOptionsCardNetwork = "amex"
+	PaymentIntentPaymentMethodOptionsCardNetworkCartesBancaires PaymentIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
+	PaymentIntentPaymentMethodOptionsCardNetworkDiners          PaymentIntentPaymentMethodOptionsCardNetwork = "diners"
+	PaymentIntentPaymentMethodOptionsCardNetworkDiscover        PaymentIntentPaymentMethodOptionsCardNetwork = "discover"
+	PaymentIntentPaymentMethodOptionsCardNetworkInterac         PaymentIntentPaymentMethodOptionsCardNetwork = "interac"
+	PaymentIntentPaymentMethodOptionsCardNetworkJCB             PaymentIntentPaymentMethodOptionsCardNetwork = "jcb"
+	PaymentIntentPaymentMethodOptionsCardNetworkMastercard      PaymentIntentPaymentMethodOptionsCardNetwork = "mastercard"
+	PaymentIntentPaymentMethodOptionsCardNetworkUnionpay        PaymentIntentPaymentMethodOptionsCardNetwork = "unionpay"
+	PaymentIntentPaymentMethodOptionsCardNetworkUnknown         PaymentIntentPaymentMethodOptionsCardNetwork = "unknown"
+	PaymentIntentPaymentMethodOptionsCardNetworkVisa            PaymentIntentPaymentMethodOptionsCardNetwork = "visa"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -129,13 +127,13 @@ const (
 )
 
 // The client type that the end customer will pay from
-type PaymentIntentPaymentMethodOptionsWechatPayClient string
+type PaymentIntentPaymentMethodOptionsWeChatPayClient string
 
-// List of values that PaymentIntentPaymentMethodOptionsWechatPayClient can take
+// List of values that PaymentIntentPaymentMethodOptionsWeChatPayClient can take
 const (
-	PaymentIntentPaymentMethodOptionsWechatPayClientAndroid PaymentIntentPaymentMethodOptionsWechatPayClient = "android"
-	PaymentIntentPaymentMethodOptionsWechatPayClientIOS     PaymentIntentPaymentMethodOptionsWechatPayClient = "ios"
-	PaymentIntentPaymentMethodOptionsWechatPayClientWeb     PaymentIntentPaymentMethodOptionsWechatPayClient = "web"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientAndroid PaymentIntentPaymentMethodOptionsWeChatPayClient = "android"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientIOS     PaymentIntentPaymentMethodOptionsWeChatPayClient = "ios"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientWeb     PaymentIntentPaymentMethodOptionsWeChatPayClient = "web"
 )
 
 // Type of the payment method for which payment is in `processing` state, one of `card`.
@@ -192,12 +190,14 @@ type PaymentIntentMandateDataCustomerAcceptanceOnlineParams struct {
 
 // This hash contains details about the customer acceptance of the Mandate.
 type PaymentIntentMandateDataCustomerAcceptanceParams struct {
-	AcceptedAt int64 `form:"accepted_at"`
+	// The time at which the customer accepted the Mandate.
+	AcceptedAt *int64 `form:"accepted_at"`
 	// If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 	Offline *PaymentIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 	Online *PaymentIntentMandateDataCustomerAcceptanceOnlineParams `form:"online"`
-	Type   MandateCustomerAcceptanceType                           `form:"type"`
+	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
+	Type *string `form:"type"`
 }
 
 // This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -219,14 +219,13 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
-	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
+	BacsDebit *PaymentMethodBacsDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *BillingDetailsParams `form:"billing_details"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
-	Card   *PaymentMethodCardParams   `form:"card"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -236,7 +235,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-	Ideal *PaymentMethodIdealParams `form:"ideal"`
+	IDEAL *PaymentMethodIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
@@ -248,13 +247,13 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
-	SepaDebit *PaymentMethodSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *PaymentMethodWechatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
 }
 
 // Additional fields for Mandate creation
@@ -293,7 +292,7 @@ type PaymentIntentPaymentMethodOptionsAlipayParams struct{}
 type PaymentIntentPaymentMethodOptionsAUBECSDebitParams struct{}
 
 // If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
-type PaymentIntentPaymentMethodOptionsBACSDebitParams struct{}
+type PaymentIntentPaymentMethodOptionsBacsDebitParams struct{}
 
 // If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 type PaymentIntentPaymentMethodOptionsBancontactParams struct {
@@ -374,7 +373,7 @@ type PaymentIntentPaymentMethodOptionsGiropayParams struct{}
 type PaymentIntentPaymentMethodOptionsGrabpayParams struct{}
 
 // If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
-type PaymentIntentPaymentMethodOptionsIdealParams struct{}
+type PaymentIntentPaymentMethodOptionsIDEALParams struct{}
 
 // If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsInteracPresentParams struct{}
@@ -398,12 +397,12 @@ type PaymentIntentPaymentMethodOptionsP24Params struct {
 }
 
 // Additional fields for Mandate creation
-type PaymentIntentPaymentMethodOptionsSepaDebitMandateOptionsParams struct{}
+type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
 // If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
-type PaymentIntentPaymentMethodOptionsSepaDebitParams struct {
+type PaymentIntentPaymentMethodOptionsSEPADebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *PaymentIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
 // If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
@@ -413,7 +412,7 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 }
 
 // If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
-type PaymentIntentPaymentMethodOptionsWechatPayParams struct {
+type PaymentIntentPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id"`
 	// The client type that the end customer will pay from
@@ -431,7 +430,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
 	AUBECSDebit *PaymentIntentPaymentMethodOptionsAUBECSDebitParams `form:"au_becs_debit"`
 	// If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
-	BACSDebit *PaymentIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
+	BacsDebit *PaymentIntentPaymentMethodOptionsBacsDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -449,7 +448,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 	Grabpay *PaymentIntentPaymentMethodOptionsGrabpayParams `form:"grabpay"`
 	// If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
-	Ideal *PaymentIntentPaymentMethodOptionsIdealParams `form:"ideal"`
+	IDEAL *PaymentIntentPaymentMethodOptionsIDEALParams `form:"ideal"`
 	// If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 	InteracPresent *PaymentIntentPaymentMethodOptionsInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
@@ -459,11 +458,11 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `p24` PaymentMethod, this sub-hash contains details about the Przelewy24 payment method options.
 	P24 *PaymentIntentPaymentMethodOptionsP24Params `form:"p24"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
-	SepaDebit *PaymentIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
 	Sofort *PaymentIntentPaymentMethodOptionsSofortParams `form:"sofort"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
-	WechatPay *PaymentIntentPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentIntentPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
 }
 
 // The parameters used to automatically create a Transfer when the payment succeeds.
@@ -614,7 +613,6 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
@@ -712,7 +710,7 @@ type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 	// The URL for the hosted verification page, which allows customers to verify their bank account.
 	HostedVerificationURL string `json:"hosted_verification_url"`
 }
-type PaymentIntentNextActionWechatPayDisplayQRCode struct {
+type PaymentIntentNextActionWeChatPayDisplayQRCode struct {
 	// The data being used to generate QR code
 	Data string `json:"data"`
 	// The base64 image data for a pre-generated QR code
@@ -722,7 +720,7 @@ type PaymentIntentNextActionWechatPayDisplayQRCode struct {
 	// The image_url_svg string used to render QR code, can be used as <img src="…" />
 	ImageURLSVG string `json:"image_url_svg"`
 }
-type PaymentIntentNextActionWechatPayRedirectToAndroidApp struct {
+type PaymentIntentNextActionWeChatPayRedirectToAndroidApp struct {
 	// app_id is the APP ID registered on WeChat open platform
 	AppID string `json:"app_id"`
 	// nonce_str is a random string
@@ -738,7 +736,7 @@ type PaymentIntentNextActionWechatPayRedirectToAndroidApp struct {
 	// Specifies the current time in epoch format
 	Timestamp string `json:"timestamp"`
 }
-type PaymentIntentNextActionWechatPayRedirectToIOSApp struct {
+type PaymentIntentNextActionWeChatPayRedirectToIOSApp struct {
 	// An universal link that redirect to Wechat Pay APP
 	NativeURL string `json:"native_url"`
 }
@@ -750,13 +748,13 @@ type PaymentIntentNextAction struct {
 	OXXODisplayDetails   *PaymentIntentNextActionOXXODisplayDetails   `json:"oxxo_display_details"`
 	RedirectToURL        *PaymentIntentNextActionRedirectToURL        `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
-	Type PaymentIntentNextActionType `json:"type"`
+	Type string `json:"type"`
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 	UseStripeSDK                  *PaymentIntentNextActionUseStripeSDK                  `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits"`
-	WechatPayDisplayQRCode        *PaymentIntentNextActionWechatPayDisplayQRCode        `json:"wechat_pay_display_qr_code"`
-	WechatPayRedirectToAndroidApp *PaymentIntentNextActionWechatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
-	WechatPayRedirectToIOSApp     *PaymentIntentNextActionWechatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
+	WeChatPayDisplayQRCode        *PaymentIntentNextActionWeChatPayDisplayQRCode        `json:"wechat_pay_display_qr_code"`
+	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
+	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
@@ -780,7 +778,7 @@ type PaymentIntentPaymentMethodOptionsAfterpayClearpay struct {
 }
 type PaymentIntentPaymentMethodOptionsAlipay struct{}
 type PaymentIntentPaymentMethodOptionsAUBECSDebit struct{}
-type PaymentIntentPaymentMethodOptionsBACSDebit struct{}
+type PaymentIntentPaymentMethodOptionsBacsDebit struct{}
 type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
@@ -818,7 +816,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *PaymentIntentPaymentMethodOptionsCardInstallments `json:"installments"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
-	Network PaymentMethodCardNetwork `json:"network"`
+	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -836,10 +834,7 @@ type PaymentIntentPaymentMethodOptionsEPS struct{}
 type PaymentIntentPaymentMethodOptionsFPX struct{}
 type PaymentIntentPaymentMethodOptionsGiropay struct{}
 type PaymentIntentPaymentMethodOptionsGrabpay struct{}
-
-// PaymentIntentPaymentMethodOptionsIdeal is the set of Ideal-specific options associated
-// with that payment intent.
-type PaymentIntentPaymentMethodOptionsIdeal struct{}
+type PaymentIntentPaymentMethodOptionsIDEAL struct{}
 type PaymentIntentPaymentMethodOptionsInteracPresent struct{}
 
 // PaymentIntentPaymentMethodOptionsKlarna is the set of Klarna-specific options associated
@@ -856,22 +851,22 @@ type PaymentIntentPaymentMethodOptionsOXXO struct {
 // PaymentIntentPaymentMethodOptionsP24 is the set of P24-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsP24 struct{}
-type PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
+type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 
-// PaymentIntentPaymentMethodOptionsSepaDebit is the set of SEPA Debit-specific options associated
+// PaymentIntentPaymentMethodOptionsSEPADebit is the set of SEPA Debit-specific options associated
 // with that payment intent.
-type PaymentIntentPaymentMethodOptionsSepaDebit struct {
-	MandateOptions *PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
+type PaymentIntentPaymentMethodOptionsSEPADebit struct {
+	MandateOptions *PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 }
 type PaymentIntentPaymentMethodOptionsSofort struct {
 	// Preferred language of the SOFORT authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
-type PaymentIntentPaymentMethodOptionsWechatPay struct {
+type PaymentIntentPaymentMethodOptionsWeChatPay struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID string `json:"app_id"`
 	// The client type that the end customer will pay from
-	Client PaymentIntentPaymentMethodOptionsWechatPayClient `json:"client"`
+	Client PaymentIntentPaymentMethodOptionsWeChatPayClient `json:"client"`
 }
 
 // Payment-method-specific configuration for this PaymentIntent.
@@ -880,7 +875,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
 	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
-	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
+	BacsDebit        *PaymentIntentPaymentMethodOptionsBacsDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
@@ -889,14 +884,14 @@ type PaymentIntentPaymentMethodOptions struct {
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropay          `json:"giropay"`
 	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpay          `json:"grabpay"`
-	Ideal            *PaymentIntentPaymentMethodOptionsIdeal            `json:"ideal"`
+	IDEAL            *PaymentIntentPaymentMethodOptionsIDEAL            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
-	SepaDebit        *PaymentIntentPaymentMethodOptionsSepaDebit        `json:"sepa_debit"`
+	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
-	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPay        `json:"wechat_pay"`
+	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay"`
 }
 type PaymentIntentProcessingCard struct{}
 
@@ -960,7 +955,7 @@ type PaymentIntent struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency string `json:"currency"`
+	Currency Currency `json:"currency"`
 	// ID of the Customer this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
@@ -1004,7 +999,7 @@ type PaymentIntent struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentSetupFutureUsage `json:"setup_future_usage"`
 	// Shipping information for this PaymentIntent.
-	Shipping ShippingDetails `json:"shipping"`
+	Shipping *ShippingDetails `json:"shipping"`
 	// This is a legacy field that will be removed in the future. It is the ID of the Source object that is associated with this PaymentIntent, if one was supplied.
 	Source *PaymentSource `json:"source"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
