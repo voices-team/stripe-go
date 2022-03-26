@@ -48,6 +48,7 @@ const (
 	AccountCapabilityTaxReportingUS1099K     AccountCapability = "tax_reporting_us_1099_k"
 	AccountCapabilityTaxReportingUS1099MISC  AccountCapability = "tax_reporting_us_1099_misc"
 	AccountCapabilityTransfers               AccountCapability = "transfers"
+	AccountCapabilityTreasury                AccountCapability = "treasury"
 )
 
 // The status of the Canadian pre-authorized debits payments capability of the account, or whether the account can directly process Canadian pre-authorized debits charges.
@@ -419,6 +420,12 @@ type AccountCapabilitiesTransfersParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The treasury capability.
+type AccountCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountCapabilitiesUSBankAccountAchPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -479,6 +486,8 @@ type AccountCapabilitiesParams struct {
 	TaxReportingUS1099MISC *AccountCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
 	// The transfers capability.
 	Transfers *AccountCapabilitiesTransfersParams `form:"transfers"`
+	// The treasury capability.
+	Treasury *AccountCapabilitiesTreasuryParams `form:"treasury"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountAchPayments *AccountCapabilitiesUSBankAccountAchPaymentsParams `form:"us_bank_account_ach_payments"`
 }
