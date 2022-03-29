@@ -2,6 +2,7 @@
 package financialaccount
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v72"
@@ -21,6 +22,15 @@ func New(params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error
 
 // New creates a new financial account.
 func (c Client) New(params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
+	if params == nil {
+		params = &stripe.FinancialAccountParams{}
+	}
+
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	params.Headers = map[string][]string{
+		"Stripe-Version": {fmt.Sprintf("%s;financial_accounts_beta=v3", stripe.APIVersion)},
+	}
+
 	account := &stripe.FinancialAccount{}
 	err := c.B.Call(http.MethodPost, "/v1/financial_accounts", c.Key, params, account)
 	return account, err

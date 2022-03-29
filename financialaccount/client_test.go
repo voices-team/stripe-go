@@ -33,7 +33,7 @@ func TestAccountList(t *testing.T) {
 func TestAccountNew(t *testing.T) {
 	account, err := New(&stripe.FinancialAccountParams{
 		SupportedCurrencies: []*string{
-			stripe.String("USD"),
+			stripe.String("usd"),
 		},
 		Features: &stripe.FinancialAccountFeaturesParams{
 			CardIssuing: &stripe.FinancialAccountFeaturesCardIssuingParams{
