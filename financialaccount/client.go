@@ -36,6 +36,18 @@ func (c Client) New(params *stripe.FinancialAccountParams) (*stripe.FinancialAcc
 	return account, err
 }
 
+// Get retrieves the platform financial account.
+func Get() (*stripe.FinancialAccount, error) {
+	return getC().Get()
+}
+
+// Get retrieves the platform financial account.
+func (c Client) Get() (*stripe.FinancialAccount, error) {
+	account := &stripe.FinancialAccount{}
+	err := c.B.Call(http.MethodGet, "/v1/financial_accounts", c.Key, nil, account)
+	return account, err
+}
+
 // GetByID returns the details of a financial account.
 func GetByID(id string, params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
 	return getC().GetByID(id, params)

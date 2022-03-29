@@ -8,19 +8,25 @@ import (
 	_ "github.com/stripe/stripe-go/v72/testing"
 )
 
-func TestAccountClose(t *testing.T) {
+func TestFinancialAccountClose(t *testing.T) {
 	account, err := Close("fa_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
-func TestAccountGetByID(t *testing.T) {
+func TestFinancialAccountGet(t *testing.T) {
+	account, err := Get()
+	assert.Nil(t, err)
+	assert.NotNil(t, account)
+}
+
+func TestFinancialAccountGetByID(t *testing.T) {
 	account, err := GetByID("fa_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
-func TestAccountList(t *testing.T) {
+func TestFinancialAccountList(t *testing.T) {
 	i := List(&stripe.FinancialAccountListParams{})
 
 	// Verify that we can get at least one account
@@ -30,7 +36,7 @@ func TestAccountList(t *testing.T) {
 	assert.NotNil(t, i.FinancialAccountList())
 }
 
-func TestAccountNew(t *testing.T) {
+func TestFinancialAccountNew(t *testing.T) {
 	account, err := New(&stripe.FinancialAccountParams{
 		SupportedCurrencies: []*string{
 			stripe.String("usd"),
@@ -84,7 +90,7 @@ func TestAccountNew(t *testing.T) {
 	assert.NotNil(t, account)
 }
 
-func TestAccountUpdate(t *testing.T) {
+func TestFinancialAccountUpdate(t *testing.T) {
 	account, err := Update("fa_123", &stripe.FinancialAccountParams{
 		Features: &stripe.FinancialAccountFeaturesParams{
 			CardIssuing: &stripe.FinancialAccountFeaturesCardIssuingParams{
