@@ -15,7 +15,7 @@ func TestFinancialAccountClose(t *testing.T) {
 }
 
 func TestFinancialAccountGet(t *testing.T) {
-	account, err := Get()
+	account, err := Get(nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }

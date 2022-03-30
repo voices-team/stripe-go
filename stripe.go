@@ -188,6 +188,33 @@ func (a *AppInfo) formatUserAgent() string {
 	return str
 }
 
+type BetaFeatures map[string]string
+
+func (b BetaFeatures) String() string {
+	var features = make([]string, 0)
+
+	for k, v := range b {
+		features = append(features, fmt.Sprintf("%s=%s", k, v))
+	}
+
+	return strings.Join(features, ";")
+}
+
+// List of beta features for using with treasury API.
+var TreasuryBetaFeatures = BetaFeatures{
+	"treasury_beta":           "v1",
+	"financial_accounts_beta": "v3",
+	"money_flows_beta":        "v2",
+	"transactions_beta":       "v3",
+	"us_bank_account_beta":    "v2",
+	"issuing_flows_beta":      "v1",
+}
+
+// List of beta features for using with card issuing API.
+var CardIssuingBetaFeatures = BetaFeatures{
+	"issuing_flows_beta": "v1",
+}
+
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
@@ -393,9 +420,10 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 	req.Header.Add("Authorization", authorization)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Stripe-Version", APIVersion)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+
+	s.setStripeVersionHeader(req, params)
 
 	if params != nil {
 		if params.Context != nil {
@@ -426,6 +454,14 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	}
 
 	return req, nil
+}
+
+func (s *BackendImplementation) setStripeVersionHeader(req *http.Request, params *Params) {
+	if params.Beta == nil {
+		req.Header.Add("Stripe-Version", APIVersion)
+	} else {
+		req.Header.Add("Stripe-Version", fmt.Sprintf("%s;%s", APIVersion, params.Beta))
+	}
 }
 
 func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {

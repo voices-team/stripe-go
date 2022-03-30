@@ -197,6 +197,9 @@ type Params struct {
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount *string `form:"-"` // Passed as header
+
+	// Stripe-Version header needs to be updated for enabling beta features.
+	Beta *BetaFeatures `form:"-"`
 }
 
 // AddExpand appends a new field to expand.

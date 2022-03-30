@@ -2,7 +2,6 @@
 package financialaccount
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v72"
@@ -22,14 +21,11 @@ func New(params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error
 
 // New creates a new financial account.
 func (c Client) New(params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
 	if params == nil {
 		params = &stripe.FinancialAccountParams{}
 	}
-
-	// force 'Stripe-Version' header to enable financial accounts beta feature
-	params.Headers = map[string][]string{
-		"Stripe-Version": {fmt.Sprintf("%s;financial_accounts_beta=v3", stripe.APIVersion)},
-	}
+	params.Beta = &stripe.TreasuryBetaFeatures
 
 	account := &stripe.FinancialAccount{}
 	err := c.B.Call(http.MethodPost, "/v1/financial_accounts", c.Key, params, account)
@@ -37,14 +33,20 @@ func (c Client) New(params *stripe.FinancialAccountParams) (*stripe.FinancialAcc
 }
 
 // Get retrieves the platform financial account.
-func Get() (*stripe.FinancialAccount, error) {
-	return getC().Get()
+func Get(params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
+	return getC().Get(params)
 }
 
 // Get retrieves the platform financial account.
-func (c Client) Get() (*stripe.FinancialAccount, error) {
+func (c Client) Get(params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	if params == nil {
+		params = &stripe.FinancialAccountParams{}
+	}
+	params.Beta = &stripe.TreasuryBetaFeatures
+
 	account := &stripe.FinancialAccount{}
-	err := c.B.Call(http.MethodGet, "/v1/financial_accounts", c.Key, nil, account)
+	err := c.B.Call(http.MethodGet, "/v1/financial_accounts", c.Key, params, account)
 	return account, err
 }
 
@@ -55,6 +57,12 @@ func GetByID(id string, params *stripe.FinancialAccountParams) (*stripe.Financia
 
 // GetByID returns the details of a financial account.
 func (c Client) GetByID(id string, params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	if params == nil {
+		params = &stripe.FinancialAccountParams{}
+	}
+	params.Beta = &stripe.TreasuryBetaFeatures
+
 	path := stripe.FormatURLPath("/v1/financial_accounts/%s", id)
 	account := &stripe.FinancialAccount{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, account)
@@ -68,6 +76,12 @@ func Update(id string, params *stripe.FinancialAccountParams) (*stripe.Financial
 
 // Update updates a financial account's properties.
 func (c Client) Update(id string, params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	if params == nil {
+		params = &stripe.FinancialAccountParams{}
+	}
+	params.Beta = &stripe.TreasuryBetaFeatures
+
 	path := stripe.FormatURLPath("/v1/financial_accounts/%s", id)
 	account := &stripe.FinancialAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
@@ -81,6 +95,12 @@ func Close(id string, params *stripe.FinancialAccountParams) (*stripe.FinancialA
 
 // Close closes a financial account.
 func (c Client) Close(id string, params *stripe.FinancialAccountParams) (*stripe.FinancialAccount, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	if params == nil {
+		params = &stripe.FinancialAccountParams{}
+	}
+	params.Beta = &stripe.TreasuryBetaFeatures
+
 	path := stripe.FormatURLPath("/v1/financial_accounts/%s/close", id)
 	account := &stripe.FinancialAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
@@ -96,6 +116,12 @@ func List(params *stripe.FinancialAccountListParams) *Iter {
 func (c Client) List(listParams *stripe.FinancialAccountListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			// force 'Stripe-Version' header to enable financial accounts beta feature
+			if p == nil {
+				p = &stripe.Params{}
+			}
+			p.Beta = &stripe.TreasuryBetaFeatures
+
 			list := &stripe.FinancialAccountList{}
 			err := c.B.CallRaw(http.MethodGet, "/v1/financial_accounts", c.Key, b, p, list)
 

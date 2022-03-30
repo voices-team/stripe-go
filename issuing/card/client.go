@@ -10,7 +10,7 @@ package card
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72"
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -27,6 +27,12 @@ func New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 
 // New creates a new issuing card.
 func (c Client) New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	if params == nil {
+		params = &stripe.IssuingCardParams{}
+	}
+	params.Beta = &stripe.CardIssuingBetaFeatures
+
 	card := &stripe.IssuingCard{}
 	err := c.B.Call(http.MethodPost, "/v1/issuing/cards", c.Key, params, card)
 	return card, err
@@ -39,6 +45,12 @@ func Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, erro
 
 // Get returns the details of an issuing card.
 func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	if params == nil {
+		params = &stripe.IssuingCardParams{}
+	}
+	params.Beta = &stripe.CardIssuingBetaFeatures
+
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, card)
@@ -52,6 +64,12 @@ func Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, e
 
 // Update updates an issuing card's properties.
 func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
+	// force 'Stripe-Version' header to enable financial accounts beta feature
+	if params == nil {
+		params = &stripe.IssuingCardParams{}
+	}
+	params.Beta = &stripe.CardIssuingBetaFeatures
+
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
@@ -67,6 +85,12 @@ func List(params *stripe.IssuingCardListParams) *Iter {
 func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			// force 'Stripe-Version' header to enable financial accounts beta feature
+			if p == nil {
+				p = &stripe.Params{}
+			}
+			p.Beta = &stripe.CardIssuingBetaFeatures
+
 			list := &stripe.IssuingCardList{}
 			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cards", c.Key, b, p, list)
 
