@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -89,6 +90,26 @@ const (
 	AccountCapabilitiesUSBankAccountAchPaymentsActive   AccountCapabilitiesUSBankAccountAchPayments = "active"
 	AccountCapabilitiesUSBankAccountAchPaymentsInactive AccountCapabilitiesUSBankAccountAchPayments = "inactive"
 	AccountCapabilitiesUSBankAccountAchPaymentsPending  AccountCapabilitiesUSBankAccountAchPayments = "pending"
+)
+
+// The status of the platform payments capability of the account.
+type AccountCapabilitiesPlatformPayments string
+
+// List of values that AccountCapabilitiesPlatformPayments can take
+const (
+	AccountCapabilitiesPlatformPaymentsActive   AccountCapabilitiesPlatformPayments = "active"
+	AccountCapabilitiesPlatformPaymentsInactive AccountCapabilitiesPlatformPayments = "inactive"
+	AccountCapabilitiesPlatformPaymentsPending  AccountCapabilitiesPlatformPayments = "pending"
+)
+
+// The status of the banking capability, or whether the account can have bank accounts.
+type AccountCapabilitiesTreasury string
+
+// List of values that AccountCapabilitiesTreasury can take
+const (
+	AccountCapabilitiesTreasuryActive   AccountCapabilitiesTreasury = "active"
+	AccountCapabilitiesTreasuryInactive AccountCapabilitiesTreasury = "inactive"
+	AccountCapabilitiesTreasuryPending  AccountCapabilitiesTreasury = "pending"
 )
 
 // The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
@@ -866,6 +887,8 @@ type AccountCapabilities struct {
 	Transfers AccountCapabilityStatus `json:"transfers"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountAchPayments AccountCapabilitiesUSBankAccountAchPayments `json:"us_bank_account_ach_payments"`
+	PlatformPayments         AccountCapabilitiesPlatformPayments         `json:"platform_payments"`
+	Treasury                 AccountCapabilitiesTreasury                 `json:"treasury"`
 }
 
 // The Kana variation of the company's primary address (Japan only).
