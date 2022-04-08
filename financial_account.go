@@ -194,7 +194,7 @@ type FinancialAddresses struct {
 	// Identifying information for the sort code address
 	SPEI FinancialAddressSPEI `json:"spei"`
 	// The list of networks that the address supports
-	SupportedNetworks FinancialAddressSupportedNetwork `json:"supported_networks"`
+	SupportedNetworks []FinancialAddressSupportedNetwork `json:"supported_networks"`
 	// Identifying information for the SWIFT address
 	SWIFT FinancialAddressSWIFT `json:"swift"`
 	// The type of financial address
@@ -273,7 +273,7 @@ type FinancialAccount struct {
 	// This field is not included by default. To include it in the response, expand the features field.
 	Features FinancialAccountFeatures `json:"features"`
 	// The set of credentials that resolve to a FinancialAccount.
-	FinancialAddresses FinancialAddresses `json:"financial_addresses"`
+	FinancialAddresses []FinancialAddresses `json:"financial_addresses"`
 	// Has the value true if the object exists in live mode or the value false if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -407,7 +407,7 @@ type FinancialAccountListParams struct {
 type FinancialAccountList struct {
 	APIResource
 	ListMeta
-	Data []*Account `json:"data"`
+	Data []*FinancialAccount `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of an FinancialAccount.
