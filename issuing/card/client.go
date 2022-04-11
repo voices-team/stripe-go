@@ -31,7 +31,7 @@ func (c Client) New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, erro
 	if params == nil {
 		params = &stripe.IssuingCardParams{}
 	}
-	params.Beta = &stripe.CardIssuingBetaFeatures
+	params.Beta = &stripe.TreasuryBetaFeatures
 
 	card := &stripe.IssuingCard{}
 	err := c.B.Call(http.MethodPost, "/v1/issuing/cards", c.Key, params, card)
@@ -49,7 +49,7 @@ func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.Issuin
 	if params == nil {
 		params = &stripe.IssuingCardParams{}
 	}
-	params.Beta = &stripe.CardIssuingBetaFeatures
+	params.Beta = &stripe.TreasuryBetaFeatures
 
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
@@ -68,7 +68,7 @@ func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.Iss
 	if params == nil {
 		params = &stripe.IssuingCardParams{}
 	}
-	params.Beta = &stripe.CardIssuingBetaFeatures
+	params.Beta = &stripe.TreasuryBetaFeatures
 
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
@@ -89,7 +89,7 @@ func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 			if p == nil {
 				p = &stripe.Params{}
 			}
-			p.Beta = &stripe.CardIssuingBetaFeatures
+			p.Beta = &stripe.TreasuryBetaFeatures
 
 			list := &stripe.IssuingCardList{}
 			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cards", c.Key, b, p, list)

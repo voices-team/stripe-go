@@ -201,6 +201,8 @@ type IssuingCardParams struct {
 	// The following parameter is only supported when updating a card
 	// Reason why the `status` of this card is `canceled`.
 	CancellationReason *string `form:"cancellation_reason"`
+	// The [Financial account](https://stripe.com/docs/api/treasury/financial_accounts/object) object with which the card will be associated.
+	FinancialAccount *string `form:"financial_account"`
 }
 
 // The desired new PIN for this card.

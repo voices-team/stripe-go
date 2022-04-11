@@ -203,16 +203,9 @@ func (b BetaFeatures) String() string {
 // List of beta features for using with treasury API.
 var TreasuryBetaFeatures = BetaFeatures{
 	"treasury_beta":           "v1",
-	"financial_accounts_beta": "v3",
-	"money_flows_beta":        "v2",
-	"transactions_beta":       "v3",
-	"us_bank_account_beta":    "v2",
 	"issuing_flows_beta":      "v1",
-}
-
-// List of beta features for using with card issuing API.
-var CardIssuingBetaFeatures = BetaFeatures{
-	"issuing_flows_beta": "v1",
+	"financial_accounts_beta": "v3",
+	"transactions_beta":       "v3",
 }
 
 // Backend is an interface for making calls against a Stripe service.
