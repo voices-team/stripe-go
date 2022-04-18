@@ -450,7 +450,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 }
 
 func (s *BackendImplementation) setStripeVersionHeader(req *http.Request, params *Params) {
-	if params.Beta == nil {
+	if params == nil || params.Beta == nil {
 		req.Header.Add("Stripe-Version", APIVersion)
 	} else {
 		req.Header.Add("Stripe-Version", fmt.Sprintf("%s;%s", APIVersion, params.Beta))
